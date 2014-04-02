@@ -19,15 +19,15 @@ Matrículas: 192332 e 213991.
 HASH_NODE* symbol;
 };
 
-%token KW_WORD	256      
-%token KW_BOOL     258 
+%token KW_WORD	    256      
+%token KW_BOOL      258 
 %token KW_BYTE      259
 %token KW_IF        261
 %token KW_THEN      262
 %token KW_ELSE      263
 %token KW_LOOP      264
 %token KW_INPUT     266
-%token KW_RETURN   267
+%token KW_RETURN    267
 %token KW_OUTPUT    268
 
 %token OPERATOR_LE	270
@@ -37,7 +37,7 @@ HASH_NODE* symbol;
 %token OPERATOR_AND	274
 %token OPERATOR_OR	275
 
-%token<symbol> UNDEFINED   		0
+%token<symbol> UNDEFINED   	0
 %token<symbol> LIT_INTEGER   	1
 %token<symbol> LIT_FLOATING  	2
 %token<symbol> LIT_TRUE      	3
