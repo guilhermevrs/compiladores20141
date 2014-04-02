@@ -44,8 +44,7 @@ SPECIAL		[,;:(){}\[\]{}\+\-\*<>=!&$\/]
 "FALSE"							{ yylval.symbol = hash_insert(yytext, LIT_FALSE); return LIT_FALSE; }
 "TRUE"							{ yylval.symbol = hash_insert(yytext, LIT_TRUE); return LIT_TRUE; }
 
-{CHAR}({CHAR}|{INTEGER})*				{ yylval.symbol = hash_insert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
-({INTEGER})+({NOTHEX})+({INTEGER}|{NOTHEX})*   { printf("ERROR at line %d. Undefined symbol \"%s\"n",getLineNumber(),yytext); return TOKEN_ERROR; }
+({CHAR}|{INTEGER})+				{ yylval.symbol = hash_insert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
 
 '(\\.|[^\\'])+'						{ yylval.symbol = hash_insert(yytext, LIT_CHAR); return LIT_CHAR; }
 \"(\\.|[^\\"])*\"					{ yylval.symbol = hash_insert(yytext, LIT_STRING); return LIT_STRING; }
