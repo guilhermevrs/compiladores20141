@@ -1,33 +1,27 @@
-"U F R G S"
-[]
-Pretto = 213991
-       &
-Schwade : 192332
-{compiladores}
+// UFRGS - Compiladores - Marcelo Johann - 2014/1
 
-word byte if then else loop input return output
+word a:0;
+word v[10]:0 0 0 0 0 0 0 0 0 0; 
+word mat[1000];
+word $pt:0;
 
-bool true false
-output /
-< 3
+word main()
+  {
+  output "Digite um numero: "
+  loop 
+    {
+    a = incn(a,1)
+    i = i + 1
+    } (i<10)
+  output "Incrementado algumas vezes fica ",a,"\n"
+  };
 
-if((aNa || rita) declare PaUlO) then
-   return resp = "OK!";
-else
-   loop(false)
+word incn (word x, word n)
+  return x+n;
+  
+word outra (word x, word n) 
+  if (x < n) else return x then return x+n;
 
-input
-3 > 0 != = 1FCA2
-((1+2)*3)-99 == word
-_ha && '_',
-$
-<=
-alt1 >= alt2;
-
-"FUCKING CHRIST"
-
-/*
-
-Professor: Marcelo Johann
-
-*/
+word maisuma ()
+  {
+  };
