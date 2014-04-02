@@ -7,21 +7,33 @@ Matrículas: 192332 e 213991.
 */
 
 #include <stdio.h>
-#include "hash.h"
+#include "hash_table.h"
 #include "lex.yy.h"
 
+extern int running;
+extern int lineNumber;
+extern HASH_TABLE hashTable;
 
 int main(int argv, char **argc)
 {
-    int token;
-    yyin = fopen("teste.txt","r");
-    while(running)
-	{
-        token = yylex();
-        if(!running) break;
+    extern int yydebug;
+    int simb;
+
+    if (argv < 2) {
+        printf("Digite o nome do arquivo!!\n");
+        exit(1);
+    }
+    
+    yyin = fopen(argc[1],"r");
+    printf("Arquivo: %s\n",argc[1]);
+
+    while(running == 1) {
+	yydebug = 1;
+        yyparse();
     }
 
-    hash_print();
-    return 0;
+    printf("\n#Printing Hash Table\n\n");
+    printHashTable(&hashTable);
+    exit(0);
 }
 

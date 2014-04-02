@@ -19,23 +19,23 @@ Matrículas: 192332 e 213991.
 HASH_NODE* symbol;
 };
 
-%token KW_WORD      
-%token KW_BOOL      
-%token KW_BYTE      
-%token KW_IF        
-%token KW_THEN      
-%token KW_ELSE      
-%token KW_LOOP      
-%token KW_INPUT     
-%token KW_RETURN   
-%token KW_OUTPUT    
+%token KW_WORD	256      
+%token KW_BOOL     258 
+%token KW_BYTE      259
+%token KW_IF        261
+%token KW_THEN      262
+%token KW_ELSE      263
+%token KW_LOOP      264
+%token KW_INPUT     266
+%token KW_RETURN   267
+%token KW_OUTPUT    268
 
-%token OPERATOR_LE
-%token OPERATOR_GE
-%token OPERATOR_EQ
-%token OPERATOR_NE
-%token OPERATOR_AND
-%token OPERATOR_OR
+%token OPERATOR_LE	270
+%token OPERATOR_GE	271
+%token OPERATOR_EQ	272
+%token OPERATOR_NE	273
+%token OPERATOR_AND	274
+%token OPERATOR_OR	275
 
 %token<symbol> UNDEFINED   		0
 %token<symbol> LIT_INTEGER   	1
@@ -60,7 +60,7 @@ HASH_NODE* symbol;
 /* .. Um programa na linguagem de e um conjunto de declarações de variáveis globais e um conjunto de funções .. */
 programa 
 		: declaracao_glob programa
-	        |
+	        | 
 		;
 
 /* ..Os comandos podem ser atribuiçoes, cont. de fluxo, input, output, return ou comando vazio.. */         
@@ -127,16 +127,7 @@ declaracao
 		| espec_tipo  '$' TK_IDENTIFIER ':' CONSTANT	 ';'	
 		| funcao
 		;
-		
-declaracao_local
-		: declaracao_nglob ';' declaracao_local
-		|
-		;
 
-declaracao_nglob
-		: espec_tipo  TK_IDENTIFIER ':' CONSTANT
-		| espec_tipo  '$' TK_IDENTIFIER ':' CONSTANT
-		;
 
 /* ..Um bloco de cmd eh def entre chaves, e consiste em uma seq, possivelmente vazia, de cmd simples seguidos de ;..*/ 
 bloco
@@ -187,7 +178,7 @@ parametros2     : parametro parametros
 	
 /* .. O cabeçalho consiste do tipo do valor de retorno , do nome da função   .. */
 funcao
-		: espec_tipo TK_IDENTIFIER '(' parametros2 ')'  declaracao_local bloco
+		: espec_tipo TK_IDENTIFIER '(' parametros2 ')' bloco
 		;
 
 %%

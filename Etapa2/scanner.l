@@ -10,21 +10,19 @@ Matrículas: 192332 e 213991.
 */
 
 #include <stdio.h>
-#include "hash.h"
+#include "hash_table.h"
 #include "y.tab.h"
-#include "main.c"
 
 int running = 1;
 int lineNumber = 1;
-
-void initMe(void) { hash_init(); }
-int getLineNumber(void) { return lineNumber; }
+HASH_TABLE hashTable;
+void initMe();
+int getLineNumber();
 
 
 %}
 INTEGER		[0-9]
 CHAR			[a-zA-Z_]
-NOTHEX                         [g-zG-Z_]
 SPECIAL		[,;:(){}\[\]{}\+\-\*<>=!&$\/]
 
 %%
@@ -41,13 +39,14 @@ SPECIAL		[,;:(){}\[\]{}\+\-\*<>=!&$\/]
 "return"						return KW_RETURN;
 "output"						return KW_OUTPUT;
 
-"FALSE"							{ yylval.symbol = hash_insert(yytext, LIT_FALSE); return LIT_FALSE; }
-"TRUE"							{ yylval.symbol = hash_insert(yytext, LIT_TRUE); return LIT_TRUE; }
+"FALSE"							{ yylval.symbol = hashInsert(&hashTable, yytext, LIT_FALSE); return LIT_FALSE; }
+"TRUE"							{ yylval.symbol = hashInsert(&hashTable, yytext, LIT_TRUE); return LIT_TRUE; }
+({INTEGER})+						{ yylval.symbol = hashInsert(&hashTable, yytext, LIT_INTEGER); return LIT_INTEGER; }
 
-({CHAR}|{INTEGER})+				{ yylval.symbol = hash_insert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
+({CHAR}|{INTEGER})+				{ yylval.symbol = hashInsert(&hashTable, yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
 
-'(\\.|[^\\'])+'						{ yylval.symbol = hash_insert(yytext, LIT_CHAR); return LIT_CHAR; }
-\"(\\.|[^\\"])*\"					{ yylval.symbol = hash_insert(yytext, LIT_STRING); return LIT_STRING; }
+'(\\.|[^\\'])+'						{ yylval.symbol = hashInsert(&hashTable, yytext, LIT_CHAR); return LIT_CHAR; }
+\"(\\.|[^\\"])*\"					{ yylval.symbol = hashInsert(&hashTable, yytext, LIT_STRING); return LIT_STRING; }
 
 "<="							return OPERATOR_LE;
 ">="							return OPERATOR_GE;
@@ -71,4 +70,8 @@ SPECIAL		[,;:(){}\[\]{}\+\-\*<>=!&$\/]
 
 %%
 
-int yywrap(void) { running = 0; return 1; }
+int yywrap() { running = 0; return 1; }
+void initMe() {
+    hashInit(&hashTable);
+}
+int getLineNumber() { return lineNumber; }
