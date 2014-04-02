@@ -7,7 +7,7 @@ Matrículas: 192332 e 213991.
 */
 
 #include <stdio.h>
-#include "hash_table.h"
+#include "hash.h"
 #include "lex.yy.h"
 
 extern int running;
