@@ -1,0 +1,55 @@
+/*
+UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 2
+
+Alunos: Guilherme Schwade e Guilherme Pretto.
+
+Matrículas: 192332 e 213991.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "astree.h"
+
+
+ASTREE * astCreate(int type, HASH_NODE* symbol, ASTREE *s0, ASTREE *S1, ASTREE *S2, ASTREE *S3)
+{
+  ASTREE *node;
+  node = (ASTREE*)calloc (1,sizeof(ASTREE));
+  node->type = type;
+  node->symbol = symbol;
+  node->son[0] = s0;		
+  node->son[1] = s1;
+  node->son[2] = s2;
+  node->son[3] = s3;
+  return node;
+}
+
+void asPrintSingle(ASTREE *node)
+{
+  if (node==0)
+    return;
+  printf("ASTREE(");
+  switch (node->type)
+  {
+    case AST_SYMBOL: printf("SYMBOL, "); break;
+    case AST_ADD: printf("ADD, "); break;
+    default: printf("UNKNOWN"); break;
+  };
+  if (node->symbol !=0)
+    printf("%s", node->symbol);
+  printf(")");
+}
+
+void asPrintTree(ASTREE *root, int level) 
+{
+  int i;
+  if (root==0)
+    return;
+  for (i=0; i<level; ++i)
+    prinft("  ");
+  asPrintSingle(root);
+  for (int i=0, i<MAX_SONS;++i)
+    asPrintTree(root->son[i];
+}
+
+// END OF FILE
