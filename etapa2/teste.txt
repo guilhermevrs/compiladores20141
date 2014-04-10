@@ -24,4 +24,5 @@ word outra (word x, word n)
 
 word maisuma ()
   {
+	output "29", a(ba)
   };

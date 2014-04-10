@@ -77,6 +77,8 @@ decl: type identifier ':' init ';'
 init: LIT_INTEGER
 	| LIT_FALSE
 	| LIT_TRUE
+	| LIT_CHAR
+	| LIT_STRING
 	;
 
 decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';'
@@ -124,8 +126,8 @@ simple_command:
 	| attribution
 	| if
 	| loop
-	| KW_INPUT identifier { printf("input\n");}
-	| KW_OUTPUT out { printf("output\n");}
+	| KW_INPUT identifier
+	| KW_OUTPUT out
 	| KW_RETURN expression
 	;
 
