@@ -25,5 +25,3 @@ word outra (word x, word n)
 word maisuma ()
   {
   };
-
-output "a",a (b())

@@ -97,11 +97,11 @@ function: type identifier '(' n_param ')' command ';'
 	;
 
 n_param: 
-	| param n_param2
+	| param n_param_2
 	;
 
 n_param_2:
-	| ',' param n_param2
+	| ',' param n_param_2
 	;
 
 param: type identifier
@@ -125,8 +125,8 @@ simple_command:
 	| if
 	| loop
 	| KW_INPUT identifier { printf("input\n");}
-	| kw_output out { printf("output\n");}
-	| kw_return expression
+	| KW_OUTPUT out { printf("output\n");}
+	| KW_RETURN expression
 	;
 
 attribution: identifier '=' expression
@@ -142,22 +142,22 @@ out: element
 
 //control flow
 
-if: kw_if '(' expression ')' kw_then command
-	| kw_if '(' expression ')' kw_else command kw_then command
+if: KW_IF '(' expression ')' KW_THEN command
+	| KW_IF '(' expression ')' KW_ELSE command KW_THEN command
 	;
 
-loop: kw_loop command '(' expression ')'
+loop: KW_LOOP command '(' expression ')'
 	;
 
 
 // types
 
-identifier: tk_identifier
+identifier: TK_IDENTIFIER
 	;
 
-type:kw_word 
-	| kw_byte
-	| kw_bool
+type:KW_WORD 
+	| KW_BYTE
+	| KW_BOOL
 	;
 
 expression: element
@@ -168,12 +168,12 @@ expression: element
 	| expression '*' expression
 	| expression '<' expression
 	| expression '>' expression
-	| expression operator_le expression
-	| expression operator_ge expression
-	| expression operator_eq expression
-	| expression operator_ne expression
-	| expression operator_and expression
-	| expression operator_or expression
+	| expression OPERATOR_LE expression
+	| expression OPERATOR_GE expression
+	| expression OPERATOR_EQ expression
+	| expression OPERATOR_NE expression
+	| expression OPERATOR_AND expression
+	| expression OPERATOR_OR expression
 	| identifier '(' n_param_ref ')'
 	| '(' expression ')'
 	| '!' expression
