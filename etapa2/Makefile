@@ -27,7 +27,7 @@ lex.yy.o: lex.yy.c
 	gcc -c lex.yy.c
 
 y.tab.c: parser.y
-	yacc -d parser.y
+	yacc -d parser.y -v
 	
 lex.yy.c: scanner.l
 	lex --header-file=lex.yy.h scanner.l

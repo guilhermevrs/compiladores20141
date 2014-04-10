@@ -53,6 +53,7 @@ int number;
 %left '<' '>' OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NE
 %left '+' '-'
 %left '*' '/'
+%nonassoc '$' '&' '!'
 
 
 %%
@@ -116,11 +117,11 @@ command: simple_command
        ;
 
 block: '{' command_block '}'
+	| '{' '}'
 	;
 
-command_block: 
-	| command
-	| command command_block
+command_block: simple_command
+	| simple_command command_block
 	;
 
 simple_command:attribution
@@ -135,9 +136,7 @@ attribution: identifier '=' expression
 	| identifier '[' expression ']' '=' expression
 	;
 
-out: element
-	| element ',' out
-	| expression
+out:expression
 	| expression ',' out
 	;
 
