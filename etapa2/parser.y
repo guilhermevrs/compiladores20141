@@ -118,12 +118,12 @@ command: simple_command
 block: '{' command_block '}'
 	;
 
-command_block: command
+command_block: 
+	| command
 	| command command_block
 	;
 
-simple_command:
-	| attribution
+simple_command:attribution
 	| if
 	| loop
 	| KW_INPUT identifier
