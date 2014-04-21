@@ -23,6 +23,31 @@ Matrículas: 192332 e 213991.
   int number;
 }
 
+%type<ast> program
+%type<ast> decl_global
+%type<ast> decl
+%type<ast> init
+%type<ast> decl_vector
+%type<ast> init_vector
+%type<ast> decl_pointer
+%type<ast> function
+%type<ast> n_param
+%type<ast> n_param_2
+%type<ast> param
+%type<ast> command
+%type<ast> block
+%type<ast> command_block
+%type<ast> simple_command
+%type<ast> attribution
+%type<ast> out
+%type<ast> if
+%type<ast> loop
+%type<ast> identifier
+%type<ast> type
+%type<ast> expression
+%type<ast> n_param_ref
+%type<ast> n_param_ref2
+%type<ast> element
 
 %token KW_WORD		256
 %token KW_BOOL		258
@@ -61,39 +86,39 @@ Matrículas: 192332 e 213991.
 
 %%
 
-program: decl_global
-	| decl_global program
-	| function
-	| function program
+program: decl_global		
+	| decl_global program	
+	| function		
+	| function program	
 	;
 
 
 // Declarations
 
-decl_global: decl
-	| decl_vector
-	| decl_pointer
+decl_global: decl		
+	| decl_vector		
+	| decl_pointer		
 	;
 
-decl: type identifier ':' init ';'
+decl: type identifier ':' init ';'	{ $$ = astCreate(AST_decl_var,$2,$1,$4, 0, 0);}
 	;
 
-init: LIT_INTEGER
-	| LIT_FALSE
-	| LIT_TRUE
-	| LIT_CHAR
-	| LIT_STRING
+init	: LIT_INTEGER			{ $$ = astCreate(AST_LIT_INTEGER,$1, 0, 0, 0, 0);}
+	| LIT_FALSE			{ $$ = astCreate(AST_LIT_FALSE,$1, 0, 0, 0, 0);}
+	| LIT_TRUE			{ $$ = astCreate(AST_LIT_TRUE,$1, 0, 0, 0, 0);}
+	| LIT_CHAR			{ $$ = astCreate(AST_LIT_CHAR,$1, 0, 0, 0, 0);}
+	| LIT_STRING			{ $$ = astCreate(AST_LIT_STRING,$1, 0, 0, 0, 0);}
 	;
 
-decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';'
-	| type identifier '[' LIT_INTEGER ']' ';'
+decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';' 	{ $$ = astCreate(AST_decl_vetch,$2,$1,$4, $7, 0);}
+	| type identifier '[' LIT_INTEGER ']' ';'			{ $$ = astCreate(AST_decl_vet,$2,$1,$4, 0, 0);}
 	;
 
 init_vector: init
 	| init init_vector
 	;
 
-decl_pointer: type '$' identifier ':' init ';'
+decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_pointer,$3,$1,$5, 0, 0);}
 	;
 
 
@@ -119,7 +144,7 @@ command: simple_command
 	| block
        ;
 
-block: '{' command_block '}'
+block: '{' command_block '}' {$$ = astCreate(AST_bloco, 0, $2, 0, 0, 0);}
 	| '{' '}'
 	;
 
@@ -131,64 +156,59 @@ command_block: simple_command
 simple_command:attribution
 	| if
 	| loop
-	| KW_INPUT identifier
-	| KW_OUTPUT out
-	| KW_RETURN expression
+	| KW_INPUT identifier 					{$$ = astCreate(AST_KW_INPUT, $2, 0, 0, 0, 0);}
+	| KW_OUTPUT out 					{$$ = astCreate(AST_KW_OUTPUT,0, $2, 0, 0, 0);}
+	| KW_RETURN expression 					{$$ = astCreate(AST_KW_RETURN,0, $2, 0, 0, 0);}
 	;
 
-attribution: identifier '=' expression
-	| identifier '[' expression ']' '=' expression
+attribution: identifier '=' expression 				{$$ = astCreate(AST_ATRIB_CONST, $1, $3, 0, 0, 0);}
+	| identifier '[' expression ']' '=' expression 		{$$ = astCreate(AST_ATRIB_VET, $1, $3, $6, 0, 0);}
 	;
 
-out:expression
-	| expression ',' out
+out	:expression						{$$ = astCreate(AST_outp,0, $1, 0, 0, 0);}
+	| expression ',' out    				{$$ = astCreate(AST_outp2,0, $1, $3, 0, 0);}
 	;
 
 
 //control flow
 
-if: KW_IF '(' expression ')' KW_THEN command
-	| KW_IF '(' expression ')' KW_ELSE command KW_THEN command
+if	: KW_IF '(' expression ')' KW_THEN command 		{ $$ = astCreate(AST_KW_IF, 0, $3,$6, 0, 0);}
+	| KW_IF '(' expression ')' KW_ELSE command KW_THEN command { $$ = astCreate(AST_KW_IF_ELSE, 0, $3,$6,$8, 0);}
 	;
 
-loop: KW_LOOP command '(' expression ')'
+loop: KW_LOOP command '(' expression ')' 			{ $$ = astCreate(AST_KW_LOOP, 0, $3,$5, 0, 0);}
 	;
 
 
 // types
 
-identifier: TK_IDENTIFIER
+identifier: TK_IDENTIFIER 					{ $$ = astCreate(AST_TK_IDENTIFIER,$1, 0, 0, 0, 0);}
 	;
 
-type:KW_WORD 
-	| KW_BYTE
-	| KW_BOOL
+type	:KW_WORD 						{ $$ = astCreate(AST_KW_WORD, 0, 0, 0, 0, 0);}
+	| KW_BYTE 						{ $$ = astCreate(AST_KW_BYTE, 0, 0, 0, 0, 0);}
+	| KW_BOOL 						{ $$ = astCreate(AST_KW_BOOL, 0, 0, 0, 0, 0);}
 	;
 
-//LIT_INTEGER { $$ = astCreate(AST_SYMBOL, $1, 0, 0, 0, 0,);}
-// | identifier { $$ = astCreate(AST_SYMBOL, $1, 0, 0, 0, 0,);}
-// | '&' IDENTIFIER {$$=0;}
-// | '$' IDENTIFIER {$$=0;}
-// | IDENTIFIER '(' arglist ')' {$$=0;}
 expression: element
-	| identifier '[' expression ']'
-	| expression '+' expression { $$ = astCreate(AST_ADD, 0, $1, S2, 0, 0,);}
-	| expression '-' expression
-	| expression '/' expression
-	| expression '*' expression
-	| expression '<' expression
-	| expression '>' expression
-	| expression OPERATOR_LE expression
-	| expression OPERATOR_GE expression
-	| expression OPERATOR_EQ expression
-	| expression OPERATOR_NE expression
-	| expression OPERATOR_AND expression
-	| expression OPERATOR_OR expression
-	| identifier '(' n_param_ref ')'
-	| '(' expression ')' //{$$=0;}
-	| '!' expression
-	| '&' expression
-	| '$' expression
+	| identifier '[' expression ']' 	{ $$ = astCreate(AST_exprComChavesTK_IDENTIFIER,$1, $3, 0, 0, 0);}
+	| identifier '(' n_param_ref ')'	{ $$ = astCreate(AST_exprComParFuncTK_IDENTIFIER,$1, $3, 0, 0, 0);}
+	| expression '+' expression 		{ $$ = astCreate(AST_ADD, 0, $1, $3, 0, 0,);}
+	| expression '-' expression 		{ $$ = astCreate(AST_SUB, 0, $1, $3, 0, 0,);}
+	| expression '/' expression 		{ $$ = astCreate(AST_DIV, 0, $1, $3, 0, 0,);}
+	| expression '*' expression 		{ $$ = astCreate(AST_MUL, 0, $1, $3, 0, 0,);}
+	| expression '<' expression 		{ $$ = astCreate(AST_MENOR, 0, $1, $3, 0, 0,);}
+	| expression '>' expression 		{ $$ = astCreate(AST_MAIOR, 0, $1, $3, 0, 0,);}
+	| expression OPERATOR_LE expression 	{ $$ = astCreate(AST_OPERATOR_LE, 0, $1,$3, 0, 0);}
+	| expression OPERATOR_GE expression 	{ $$ = astCreate(AST_OPERATOR_GE, 0, $1,$3, 0, 0);}
+	| expression OPERATOR_EQ expression 	{ $$ = astCreate(AST_OPERATOR_EQ, 0, $1,$3, 0, 0);}
+	| expression OPERATOR_NE expression 	{ $$ = astCreate(AST_OPERATOR_NE, 0, $1,$3, 0, 0);}
+	| expression OPERATOR_AND expression 	{ $$ = astCreate(AST_OPERATOR_AND, 0, $1,$3, 0, 0);}
+	| expression OPERATOR_OR expression 	{ $$ = astCreate(AST_OPERATOR_OR, 0, $1,$3, 0, 0);}
+	| '(' expression ')' 			{ $$ = astCreate(AST_exprComParent, 0, $2, 0, 0, 0);}
+	| '!' expression			{$$=0;}
+	| '&' expression			{$$=0;}
+	| '$' expression			{$$=0;}
 	;
 
 n_param_ref: 
@@ -200,11 +220,11 @@ n_param_ref2:
 	;
 
 element: identifier
-	| LIT_INTEGER
-	| LIT_FALSE
-	| LIT_TRUE
-	| LIT_CHAR
-	| LIT_STRING
+	| LIT_INTEGER 	{ $$ = astCreate(AST_LIT_INTEGER,$1, 0, 0, 0, 0);}
+	| LIT_FALSE	{ $$ = astCreate(AST_LIT_FALSE,$1, 0, 0, 0, 0);}
+	| LIT_TRUE 	{ $$ = astCreate(AST_LIT_TRUE,$1, 0, 0, 0, 0);}
+	| LIT_CHAR	{ $$ = astCreate(AST_LIT_CHAR,$1, 0, 0, 0, 0);}
+	| LIT_STRING	{ $$ = astCreate(AST_LIT_STRING,$1, 0, 0, 0, 0);}
 	;
 
 %%
