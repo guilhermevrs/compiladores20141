@@ -60,8 +60,12 @@ Matrículas: 192332 e 213991.
 #define AST_decl_vetch      68
 #define AST_decl_vet	    69
 #define AST_decl_pointer    70
+#define AST_init_vector     71
+#define AST_command_block     72
+#define AST_init                   73
+#define AST_program          74
 
-#define AST_SYMBOL 71
+#define AST_SYMBOL 80
 
 #include <stdio.h>
 #include <stdlib.h>

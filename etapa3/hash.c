@@ -9,6 +9,7 @@ Matrícula: 192332 e 213991.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "astree.h"
 #include "hash.h"
 
 static int hash_i = 1;
@@ -51,7 +52,7 @@ HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type)
 {
 	HASH_NODE *node;
 	int address;
-	
+
 	if (Table->usedEntries > hash_i*HASH_SIZE/2)
 	{
 		hashResize(Table);
@@ -70,15 +71,15 @@ HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type)
 		strcpy(newNode -> text, text);
 		newNode -> next = Table -> node[address];
 		Table -> node[address] = newNode;
-	
+
 		Table -> usedEntries++;
 		return newNode;
 	}
 	else
-	{		
+	{
 		return node;
 	}
-	
+
 }
 
 HASH_NODE *hashFind (HASH_TABLE *Table, char *text, int type)
@@ -87,7 +88,7 @@ HASH_NODE *hashFind (HASH_TABLE *Table, char *text, int type)
 	int i;
 	HASH_NODE *pt;
 
-	address = hashAddress(Table, text); 
+	address = hashAddress(Table, text);
 
 	for (i = 0; i < hash_i*HASH_SIZE; ++i)
 	{

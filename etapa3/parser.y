@@ -11,8 +11,8 @@ Matrículas: 192332 e 213991.
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "hash.h"
 #include "astree.h"
+#include "hash.h"
 
 %}
 
@@ -85,18 +85,18 @@ Matrículas: 192332 e 213991.
 
 %%
 
-program: decl_global                            {$$ = $1}
+program: decl_global                            {$$ = $1;}
 	| decl_global program              {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);}
-	| function                                  {$$ = $1}
+	| function                                  {$$ = $1;}
 	| function program                   {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);}
 	;
 
 
 // Declarations
 
-decl_global: decl                                    {$$ = $1}
-	| decl_vector                              {$$ = $1}
-	| decl_pointer                             {$$ = $1}
+decl_global: decl                                    {$$ = $1;}
+	| decl_vector                              {$$ = $1;}
+	| decl_pointer                             {$$ = $1;}
 	;
 
 decl: type identifier ':' init ';'	{ $$ = astCreate(AST_decl_var,$2,$1,$4, 0, 0);}
@@ -113,8 +113,8 @@ decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';' 	{ $$ = ast
 	| type identifier '[' LIT_INTEGER ']' ';'			{ $$ =  astCreate(AST_decl_vet,$2,$1,$4, 0, 0);}
 	;
 
-init_vector: init                                                                               $$ =  astCreate(AST_init,$1, 0, 0, 0, 0);}
-	| init init_vector                                                                 $$ =  astCreate(AST_init_vector,$2,$1, 0, 0, 0);}
+init_vector: init                                                                               {$$ =  astCreate(AST_init,$1, 0, 0, 0, 0);}
+	| init init_vector                                                                 {$$ =  astCreate(AST_init_vector,$2,$1, 0, 0, 0);}
 	;
 
 decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_pointer,$3,$1,$5, 0, 0);}
@@ -123,49 +123,49 @@ decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_poin
 
 //Function
 
-function: type identifier '(' n_param ')' command ';'                   {$$ = 0} //TODO
+function: type identifier '(' n_param ')' command ';'                   {$$ = 0;} //TODO
 	;
 
 n_param:
-	| param n_param_2                                                          {$$ = 0} //TODO
+	| param n_param_2                                                          {$$ = 0;} //TODO
 	;
 
 n_param_2:
-	| ',' param n_param_2                                                      {$$ = 0} //TODO
+	| ',' param n_param_2                                                      {$$ = 0;} //TODO
 	;
 
-param: type identifier                                                                   {$$ = 0} //TODO
-	| type '$' identifier                                                            {$$ = 0} //TODO
+param: type identifier                                                                   {$$ = 0;} //TODO
+	| type '$' identifier                                                            {$$ = 0;} //TODO
 	;
 
 // Commands
-command: simple_command                                                        {$$ = $1}
-	| block                                                                                {$$ = $1}
+command: simple_command                                                        {$$ = $1;}
+	| block                                                                                {$$ = $1;}
        ;
 
 block: '{' command_block '}' {$$ = astCreate(AST_bloco, 0, $2, 0, 0, 0);}
-	| '{' '}'
+	| '{' '}'                         {$$ = astCreate(AST_bloco, 0, 0, 0, 0, 0);}
 	;
 
-command_block: simple_command
-	| simple_command command_block
+command_block: simple_command                                               {$$ = $1;}
+	| simple_command command_block                                 {$$ = astCreate(AST_command_block, 0, $2, $1, 0, 0);}
 	;
 
 //
-simple_command:attribution
-	| if
-	| loop
-	| KW_INPUT identifier 					{$$ = astCreate(AST_KW_INPUT, $2, 0, 0, 0, 0);}
+simple_command:attribution                                                          {$$ = $1;}
+	| if                                                                                        {$$ = $1;}
+	| loop                                                                                     {$$ = $1;}
+	| KW_INPUT identifier 					{$$ = astCreate(AST_KW_INPUT, 0, $2, 0, 0, 0);}
 	| KW_OUTPUT out 					{$$ = astCreate(AST_KW_OUTPUT,0, $2, 0, 0, 0);}
 	| KW_RETURN expression 					{$$ = astCreate(AST_KW_RETURN,0, $2, 0, 0, 0);}
 	;
 
-attribution: identifier '=' expression 				{$$ = astCreate(AST_ATRIB_CONST, $1, $3, 0, 0, 0);}
-	| identifier '[' expression ']' '=' expression 		{$$ = astCreate(AST_ATRIB_VET, $1, $3, $6, 0, 0);}
+attribution: identifier '=' expression 				{$$ = astCreate(AST_ATRIB_CONST, 0, $1, $3, 0, 0);}
+	| identifier '[' expression ']' '=' expression 		{$$ = astCreate(AST_ATRIB_VET, 0, $1, $3, $6, 0);}
 	;
 
-out	:expression						{$$ = astCreate(AST_outp,0, $1, 0, 0, 0);}
-	| expression ',' out    				{$$ = astCreate(AST_outp2,0, $1, $3, 0, 0);}
+out	:expression						{$$ = $1;}
+	| expression ',' out    				{$$ = astCreate(AST_outp,0, $1, $3, 0, 0);}
 	;
 
 
@@ -192,12 +192,12 @@ type	:KW_WORD 						{ $$ = astCreate(AST_KW_WORD, 0, 0, 0, 0, 0);}
 expression: element
 	| identifier '[' expression ']' 	{ $$ = astCreate(AST_exprComChavesTK_IDENTIFIER,$1, $3, 0, 0, 0);}
 	| identifier '(' n_param_ref ')'	{ $$ = astCreate(AST_exprComParFuncTK_IDENTIFIER,$1, $3, 0, 0, 0);}
-	| expression '+' expression 		{ $$ = astCreate(AST_ADD, 0, $1, $3, 0, 0,);}
-	| expression '-' expression 		{ $$ = astCreate(AST_SUB, 0, $1, $3, 0, 0,);}
-	| expression '/' expression 		{ $$ = astCreate(AST_DIV, 0, $1, $3, 0, 0,);}
-	| expression '*' expression 		{ $$ = astCreate(AST_MUL, 0, $1, $3, 0, 0,);}
-	| expression '<' expression 		{ $$ = astCreate(AST_MENOR, 0, $1, $3, 0, 0,);}
-	| expression '>' expression 		{ $$ = astCreate(AST_MAIOR, 0, $1, $3, 0, 0,);}
+	| expression '+' expression 		{ $$ = astCreate(AST_ADD, 0, $1, $3, 0, 0);}
+	| expression '-' expression 		{ $$ = astCreate(AST_SUB, 0, $1, $3, 0, 0);}
+	| expression '/' expression 		{ $$ = astCreate(AST_DIV, 0, $1, $3, 0, 0);}
+	| expression '*' expression 		{ $$ = astCreate(AST_MUL, 0, $1, $3, 0, 0);}
+	| expression '<' expression 		{ $$ = astCreate(AST_MENOR, 0, $1, $3, 0, 0);}
+	| expression '>' expression 		{ $$ = astCreate(AST_MAIOR, 0, $1, $3, 0, 0);}
 	| expression OPERATOR_LE expression 	{ $$ = astCreate(AST_OPERATOR_LE, 0, $1,$3, 0, 0);}
 	| expression OPERATOR_GE expression 	{ $$ = astCreate(AST_OPERATOR_GE, 0, $1,$3, 0, 0);}
 	| expression OPERATOR_EQ expression 	{ $$ = astCreate(AST_OPERATOR_EQ, 0, $1,$3, 0, 0);}

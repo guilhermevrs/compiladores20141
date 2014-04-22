@@ -18,7 +18,7 @@ ASTREE *astCreate(int type, HASH_NODE *symbol, ASTREE *s0, ASTREE *s1, ASTREE *s
   node = (ASTREE*)calloc(1,sizeof(ASTREE));
   node->type = type;
   node->symbol = symbol;
-  node->son[0] = s0;		
+  node->son[0] = s0;
   node->son[1] = s1;
   node->son[2] = s2;
   node->son[3] = s3;
@@ -26,16 +26,16 @@ ASTREE *astCreate(int type, HASH_NODE *symbol, ASTREE *s0, ASTREE *s1, ASTREE *s
   return node;
 }
 
-void asPrintTree(ASTREE *root, int level) 
+void asPrintTree(ASTREE *root, int level)
 {
   int i;
   if (root==0)
     return;
   for (i=0; i<level; ++i)
-    prinft("  ");
+    printf("  ");
   asPrintSingle(root);
-  for (int i=0, i<MAX_SONS;++i)
-    asPrintTree(root->son[i];
+  for (i=0; i<MAX_SONS;++i)
+    asPrintTree(root->son[i], 0);
 }
 
 void asPrintSingle(ASTREE *node)
@@ -57,26 +57,26 @@ void asPrintSingle(ASTREE *node)
     if(node->impresso==1)return;
     node->impresso = 1;
     switch(node->type)
-    {	
-      case AST_ADD:
-	astPrintNode(node->son[0]);		     
+    {
+      /*case AST_ADD:
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," + ");
-	astPrintNode(node->son[1]);		            	
+	astPrintNode(node->son[1]);
         break;
       case AST_SUB:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," - ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_MUL:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," * ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_DIV:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," / ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_KW_WORD:
 	fprintf(ExitTree,"word");
@@ -89,23 +89,23 @@ void asPrintSingle(ASTREE *node)
 	break;
       case AST_KW_IF:
 	fprintf(ExitTree,"if (");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree,")\nthen ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
 	break;
       case AST_KW_IF_ELSE:
 	fprintf(ExitTree,"if (");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree,")\nthen ");
-	astPrintNode(node->son[1]);		 
+	astPrintNode(node->son[1]);
 	fprintf(ExitTree,"\nelse ");
-	astPrintNode(node->son[2]);		
+	astPrintNode(node->son[2]);
 	break;
       case AST_KW_LOOP:
 	fprintf(ExitTree,"loop (");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree,") \n");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
 	break;
       case AST_KW_INPUT:
 	if(node->symbol)
@@ -116,46 +116,46 @@ void asPrintSingle(ASTREE *node)
 	  break;
       case AST_KW_OUTPUT:
 	fprintf(ExitTree,"output ");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	break;
       case AST_KW_RETURN:
 	fprintf(ExitTree,"return ");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	break;
       case AST_OPERATOR_LE:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," <= ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_OPERATOR_GE:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," >= ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_OPERATOR_EQ:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," == ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_OPERATOR_NE:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," != ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_OPERATOR_AND:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," && ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_OPERATOR_OR:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," || ");
-	astPrintNode(node->son[1]);		
-        break;										
+	astPrintNode(node->son[1]);
+        break;
       case AST_LIT_INTEGER:
 	if(node->symbol)
 	  if(node->symbol->intVal >= 0 || node->symbol->intVal < 0)
-	  {        
+	  {
 	    fprintf(ExitTree, "%d ", node->symbol->intVal);
 	  }
 	break;
@@ -185,44 +185,44 @@ void asPrintSingle(ASTREE *node)
 	    }
 	    break;
       case AST_IGUAL:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," = ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_MAIOR:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," > ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_MENOR:
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree," < ");
-	astPrintNode(node->son[1]);		
+	astPrintNode(node->son[1]);
         break;
       case AST_NEG:
 	fprintf(ExitTree," ! ");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
         break;
       case AST_exprComParent:
 	fprintf(ExitTree," (");
-	astPrintNode(node->son[0]);		
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree,") ");
         break;
-      
+
 
 
       case AST_bloco:
 	fprintf(ExitTree,"{\n");
-	astPrintNode(node->son[0]);	
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree,"\n}");
 	break;
       case AST_outp:
-	astPrintNode(node->son[0]);	
+	astPrintNode(node->son[0]);
 	break;
       case AST_outp2:
-	astPrintNode(node->son[0]);	
+	astPrintNode(node->son[0]);
 	fprintf(ExitTree, ",");
-	astPrintNode(node->son[1]);	
+	astPrintNode(node->son[1]);
 	break;
 
 
@@ -232,20 +232,20 @@ void asPrintSingle(ASTREE *node)
         if(node->symbol)
 	  if(node->symbol->text)
 	  {
-	    fprintf(ExitTree, " %s ", node->symbol->text);				
-	    fprintf(ExitTree, " = ");				
-	    astPrintNode(node->son[0]);	
+	    fprintf(ExitTree, " %s ", node->symbol->text);
+	    fprintf(ExitTree, " = ");
+	    astPrintNode(node->son[0]);
 	  }
 	break;
       case AST_ATRIB_VET:
 	if(node->symbol)
 	  if(node->symbol->text)
 	  {
-	    fprintf(ExitTree, " %s ", node->symbol->text);				
+	    fprintf(ExitTree, " %s ", node->symbol->text);
 	    fprintf(ExitTree, " [ ");
 	    astPrintNode(node->son[0]);
-	    fprintf(ExitTree, " ] = ");				
-	    astPrintNode(node->son[1]);	
+	    fprintf(ExitTree, " ] = ");
+	    astPrintNode(node->son[1]);
 	  }
 	break;
       case AST_exprComChavesTK_IDENTIFIER:
@@ -255,7 +255,7 @@ void asPrintSingle(ASTREE *node)
 	    fprintf(ExitTree, "%s", node->symbol->text);
 	  }
 	  fprintf(ExitTree," [");
-	  astPrintNode(node->son[0]);		
+	  astPrintNode(node->son[0]);
 	  fprintf(ExitTree,"] ");
         break;
       case AST_exprComChavesTK_IDENTIFIER:
@@ -265,19 +265,19 @@ void asPrintSingle(ASTREE *node)
 	    fprintf(ExitTree, "%s", node->symbol->text);
 	  }
 	  fprintf(ExitTree," [");
-	  astPrintNode(node->scc[0]);		
+	  astPrintNode(node->scc[0]);
 	  fprintf(ExitTree,"] ");
         break;
 
-   
+
 
       case AST_decl_var:
         if(node->symbol)
 	  if(node->symbol->text)
 	  {
-	    astPrintNode(node->son[0]);	
-	    fprintf(ExitTree, " %s :", node->symbol->text);				
-	    astPrintNode(node->son[1]);	
+	    astPrintNode(node->son[0]);
+	    fprintf(ExitTree, " %s :", node->symbol->text);
+	    astPrintNode(node->son[1]);
 	    fprintf(ExitTree, ";\n");
 	  }
 	break;
@@ -285,12 +285,12 @@ void asPrintSingle(ASTREE *node)
 	if(node->symbol)
 	  if(node->symbol->text)
 	  {
-	    astPrintNode(node->son[0]);	
+	    astPrintNode(node->son[0]);
 	    fprintf(ExitTree, " %s ", node->symbol->text);
-	    fprintf(ExitTree, "[ ");				
-	    astPrintNode(node->son[1]);	
-	    fprintf(ExitTree, "] : ");	
-	    astPrintNode(node->son[2]);			
+	    fprintf(ExitTree, "[ ");
+	    astPrintNode(node->son[1]);
+	    fprintf(ExitTree, "] : ");
+	    astPrintNode(node->son[2]);
 	    fprintf(ExitTree, ";\n");
 	  }
 	break;
@@ -298,11 +298,11 @@ void asPrintSingle(ASTREE *node)
 	if(node->symbol)
 	  if(node->symbol->text)
 	  {
-	    astPrintNode(node->son[0]);	
+	    astPrintNode(node->son[0]);
 	    fprintf(ExitTree, " %s ", node->symbol->text);
-	    fprintf(ExitTree, "[ ");				
-	    astPrintNode(node->son[1]);	
-	    fprintf(ExitTree, "] ");		
+	    fprintf(ExitTree, "[ ");
+	    astPrintNode(node->son[1]);
+	    fprintf(ExitTree, "] ");
 	    fprintf(ExitTree, ";\n");
 	  }
 	break;
@@ -310,17 +310,17 @@ void asPrintSingle(ASTREE *node)
 	if(node->symbol)
 	  if(node->symbol->text)
 	  {
-	    astPrintNode(node->son[0]);	
+	    astPrintNode(node->son[0]);
 	    fprintf(ExitTree, " $");
 	    fprintf(ExitTree, "%s", node->symbol->text);
-	    fprintf(ExitTree, " : ");				
-	    astPrintNode(node->son[1]);	
+	    fprintf(ExitTree, " : ");
+	    astPrintNode(node->son[1]);
 	    fprintf(ExitTree, ";\n");
 	  }
 	break;
 
-      
-      default: 
+      */
+      default:
 	printf("UNKNOWN\n");
 	break;
       }

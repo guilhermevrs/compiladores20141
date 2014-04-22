@@ -8,6 +8,7 @@ Matrículas: 192332 e 213991.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "astree.h"
 #include "hash.h"
 #include "lex.yy.h"
 #include "y.tab.h"
@@ -33,13 +34,13 @@ int main(int argc, char **argv)
 	}
 	if (! (yyin = fopen(argv[1], "r")))
 	{
-		fprintf(stderr, "File '%s' does not exist.\n", argv[1]);		
+		fprintf(stderr, "File '%s' does not exist.\n", argv[1]);
 		return 2;
 	}
 
 	yyparse();
-	
+
 	hashPrint(&Table);
-	
+
 	exit(0);
 }

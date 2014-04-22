@@ -71,8 +71,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "hash.h"
 #include "astree.h"
+#include "hash.h"
 
 
 
@@ -1562,7 +1562,56 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 9:
+        case 2:
+
+/* Line 1806 of yacc.c  */
+#line 88 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 3:
+
+/* Line 1806 of yacc.c  */
+#line 89 "parser.y"
+    {(yyval.astree) = astCreate(AST_program, 0, (yyvsp[(1) - (2)].astree), (yyvsp[(2) - (2)].astree), 0, 0);}
+    break;
+
+  case 4:
+
+/* Line 1806 of yacc.c  */
+#line 90 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 5:
+
+/* Line 1806 of yacc.c  */
+#line 91 "parser.y"
+    {(yyval.astree) = astCreate(AST_program, 0, (yyvsp[(1) - (2)].astree), (yyvsp[(2) - (2)].astree), 0, 0);}
+    break;
+
+  case 6:
+
+/* Line 1806 of yacc.c  */
+#line 97 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 7:
+
+/* Line 1806 of yacc.c  */
+#line 98 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 8:
+
+/* Line 1806 of yacc.c  */
+#line 99 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 9:
 
 /* Line 1806 of yacc.c  */
 #line 102 "parser.y"
@@ -1615,7 +1664,21 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 113 "parser.y"
-    { (yyval.astree) = astCreate(AST_decl_vet,(yyvsp[(2) - (6)].astree),(yyvsp[(1) - (6)].astree),(yyvsp[(4) - (6)].symbol), 0, 0);}
+    { (yyval.astree) =  astCreate(AST_decl_vet,(yyvsp[(2) - (6)].astree),(yyvsp[(1) - (6)].astree),(yyvsp[(4) - (6)].symbol), 0, 0);}
+    break;
+
+  case 17:
+
+/* Line 1806 of yacc.c  */
+#line 116 "parser.y"
+    {(yyval.astree) =  astCreate(AST_init,(yyvsp[(1) - (1)].astree), 0, 0, 0, 0);}
+    break;
+
+  case 18:
+
+/* Line 1806 of yacc.c  */
+#line 117 "parser.y"
+    {(yyval.astree) =  astCreate(AST_init_vector,(yyvsp[(2) - (2)].astree),(yyvsp[(1) - (2)].astree), 0, 0, 0);}
     break;
 
   case 19:
@@ -1625,6 +1688,55 @@ yyreduce:
     { (yyval.astree) = astCreate(AST_decl_pointer,(yyvsp[(3) - (6)].astree),(yyvsp[(1) - (6)].astree),(yyvsp[(5) - (6)].astree), 0, 0);}
     break;
 
+  case 20:
+
+/* Line 1806 of yacc.c  */
+#line 126 "parser.y"
+    {(yyval.astree) = 0;}
+    break;
+
+  case 22:
+
+/* Line 1806 of yacc.c  */
+#line 130 "parser.y"
+    {(yyval.astree) = 0;}
+    break;
+
+  case 24:
+
+/* Line 1806 of yacc.c  */
+#line 134 "parser.y"
+    {(yyval.astree) = 0;}
+    break;
+
+  case 25:
+
+/* Line 1806 of yacc.c  */
+#line 137 "parser.y"
+    {(yyval.astree) = 0;}
+    break;
+
+  case 26:
+
+/* Line 1806 of yacc.c  */
+#line 138 "parser.y"
+    {(yyval.astree) = 0;}
+    break;
+
+  case 27:
+
+/* Line 1806 of yacc.c  */
+#line 142 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 28:
+
+/* Line 1806 of yacc.c  */
+#line 143 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
   case 29:
 
 /* Line 1806 of yacc.c  */
@@ -1632,11 +1744,53 @@ yyreduce:
     {(yyval.astree) = astCreate(AST_bloco, 0, (yyvsp[(2) - (3)].astree), 0, 0, 0);}
     break;
 
+  case 30:
+
+/* Line 1806 of yacc.c  */
+#line 147 "parser.y"
+    {(yyval.astree) = astCreate(AST_bloco, 0, 0, 0, 0, 0);}
+    break;
+
+  case 31:
+
+/* Line 1806 of yacc.c  */
+#line 150 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 32:
+
+/* Line 1806 of yacc.c  */
+#line 151 "parser.y"
+    {(yyval.astree) = astCreate(AST_command_block, 0, (yyvsp[(2) - (2)].astree), (yyvsp[(1) - (2)].astree), 0, 0);}
+    break;
+
+  case 33:
+
+/* Line 1806 of yacc.c  */
+#line 155 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 34:
+
+/* Line 1806 of yacc.c  */
+#line 156 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
+  case 35:
+
+/* Line 1806 of yacc.c  */
+#line 157 "parser.y"
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
+    break;
+
   case 36:
 
 /* Line 1806 of yacc.c  */
 #line 158 "parser.y"
-    {(yyval.astree) = astCreate(AST_KW_INPUT, (yyvsp[(2) - (2)].astree), 0, 0, 0, 0);}
+    {(yyval.astree) = astCreate(AST_KW_INPUT, 0, (yyvsp[(2) - (2)].astree), 0, 0, 0);}
     break;
 
   case 37:
@@ -1657,28 +1811,28 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 163 "parser.y"
-    {(yyval.astree) = astCreate(AST_ATRIB_CONST, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0, 0);}
+    {(yyval.astree) = astCreate(AST_ATRIB_CONST, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 40:
 
 /* Line 1806 of yacc.c  */
 #line 164 "parser.y"
-    {(yyval.astree) = astCreate(AST_ATRIB_VET, (yyvsp[(1) - (6)].astree), (yyvsp[(3) - (6)].astree), (yyvsp[(6) - (6)].astree), 0, 0);}
+    {(yyval.astree) = astCreate(AST_ATRIB_VET, 0, (yyvsp[(1) - (6)].astree), (yyvsp[(3) - (6)].astree), (yyvsp[(6) - (6)].astree), 0);}
     break;
 
   case 41:
 
 /* Line 1806 of yacc.c  */
 #line 167 "parser.y"
-    {(yyval.astree) = astCreate(AST_outp,0, (yyvsp[(1) - (1)].astree), 0, 0, 0);}
+    {(yyval.astree) = (yyvsp[(1) - (1)].astree);}
     break;
 
   case 42:
 
 /* Line 1806 of yacc.c  */
 #line 168 "parser.y"
-    {(yyval.astree) = astCreate(AST_outp2,0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
+    {(yyval.astree) = astCreate(AST_outp,0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 43:
@@ -1748,42 +1902,42 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 195 "parser.y"
-    { (yyval.astree) = astCreate(AST_ADD, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0,);}
+    { (yyval.astree) = astCreate(AST_ADD, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 54:
 
 /* Line 1806 of yacc.c  */
 #line 196 "parser.y"
-    { (yyval.astree) = astCreate(AST_SUB, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0,);}
+    { (yyval.astree) = astCreate(AST_SUB, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 55:
 
 /* Line 1806 of yacc.c  */
 #line 197 "parser.y"
-    { (yyval.astree) = astCreate(AST_DIV, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0,);}
+    { (yyval.astree) = astCreate(AST_DIV, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 56:
 
 /* Line 1806 of yacc.c  */
 #line 198 "parser.y"
-    { (yyval.astree) = astCreate(AST_MUL, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0,);}
+    { (yyval.astree) = astCreate(AST_MUL, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 57:
 
 /* Line 1806 of yacc.c  */
 #line 199 "parser.y"
-    { (yyval.astree) = astCreate(AST_MENOR, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0,);}
+    { (yyval.astree) = astCreate(AST_MENOR, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 58:
 
 /* Line 1806 of yacc.c  */
 #line 200 "parser.y"
-    { (yyval.astree) = astCreate(AST_MAIOR, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0,);}
+    { (yyval.astree) = astCreate(AST_MAIOR, 0, (yyvsp[(1) - (3)].astree), (yyvsp[(3) - (3)].astree), 0, 0);}
     break;
 
   case 59:
@@ -1894,7 +2048,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 1898 "y.tab.c"
+#line 2052 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

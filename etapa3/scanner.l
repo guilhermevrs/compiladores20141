@@ -9,9 +9,9 @@ Matrículas: 192332 e 213991.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "astree.h"
 #include "hash.h"
 #include "y.tab.h"
-#include "astree.h"
 
 HASH_TABLE Table;
 int lineNumber;
@@ -55,27 +55,27 @@ int running;
 <COMMENT>.		{}
 
 
-"true"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE); 
-				  return LIT_TRUE; 
+"true"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE);
+				  return LIT_TRUE;
 				}
-"false"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE); 
-				  return LIT_FALSE; 
+"false"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE);
+				  return LIT_FALSE;
 				}
 
-[0-9]+				{ yylval.symbol = atoi(yytext); 
-				  hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER); 
+[0-9]+				{ yylval.symbol = atoi(yytext);
+				  hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
 				  return LIT_INTEGER;
 				}
 
-[0-9]*[a-zA-Z_][a-zA-Z_0-9]*	{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_IDENTIFIER); 
+[0-9]*[a-zA-Z_][a-zA-Z_0-9]*	{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_IDENTIFIER);
 				  return TK_IDENTIFIER;
 				}
 
-"\'"(.)"\'"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_CHAR ); 
+"\'"(.)"\'"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_CHAR );
 				  return LIT_CHAR;
 				}
 
-\"[^\"]*\"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_STRING); 
+\"[^\"]*\"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_STRING);
 				  return LIT_STRING;
 				}
 
