@@ -23,36 +23,36 @@ Matrículas: 192332 e 213991.
   int number;
 }
 
-%type<ast> program
-%type<ast> decl_global
-%type<ast> decl
-%type<ast> init
-%type<ast> decl_vector
-%type<ast> init_vector
-%type<ast> decl_pointer
-%type<ast> function
-%type<ast> n_param
-%type<ast> n_param_2
-%type<ast> param
-%type<ast> command
-%type<ast> block
-%type<ast> command_block
-%type<ast> simple_command
-%type<ast> attribution
-%type<ast> out
-%type<ast> if
-%type<ast> loop
-%type<ast> identifier
-%type<ast> type
-%type<ast> expression
-%type<ast> n_param_ref
-%type<ast> n_param_ref2
-%type<ast> element
+%type<astree> program
+%type<astree> decl_global
+%type<astree> decl
+%type<astree> init
+%type<astree> decl_vector
+%type<astree> init_vector
+%type<astree> decl_pointer
+%type<astree> function
+%type<astree> n_param
+%type<astree> n_param_2
+%type<astree> param
+%type<astree> command
+%type<astree> block
+%type<astree> command_block
+%type<astree> simple_command
+%type<astree> attribution
+%type<astree> out
+%type<astree> if
+%type<astree> loop
+%type<astree> identifier
+%type<astree> type
+%type<astree> expression
+%type<astree> n_param_ref
+%type<astree> n_param_ref2
+%type<astree> element
 
 %token KW_WORD		256
 %token KW_BOOL		258
 %token KW_BYTE		259
-%token KW_IF		261
+%token KW_IF		             261
 %token KW_THEN		262
 %token KW_ELSE		263
 %token KW_LOOP		264
@@ -82,22 +82,21 @@ Matrículas: 192332 e 213991.
 %left '*' '/'
 %nonassoc '$' '&' '!'
 
-%type <astree> expression;
 
 %%
 
-program: decl_global		
-	| decl_global program	
-	| function		
-	| function program	
+program: decl_global                            {$$ = $1}
+	| decl_global program              {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);}
+	| function                                  {$$ = $1}
+	| function program                   {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);}
 	;
 
 
 // Declarations
 
-decl_global: decl		
-	| decl_vector		
-	| decl_pointer		
+decl_global: decl                                    {$$ = $1}
+	| decl_vector                              {$$ = $1}
+	| decl_pointer                             {$$ = $1}
 	;
 
 decl: type identifier ':' init ';'	{ $$ = astCreate(AST_decl_var,$2,$1,$4, 0, 0);}
@@ -111,11 +110,11 @@ init	: LIT_INTEGER			{ $$ = astCreate(AST_LIT_INTEGER,$1, 0, 0, 0, 0);}
 	;
 
 decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';' 	{ $$ = astCreate(AST_decl_vetch,$2,$1,$4, $7, 0);}
-	| type identifier '[' LIT_INTEGER ']' ';'			{ $$ = astCreate(AST_decl_vet,$2,$1,$4, 0, 0);}
+	| type identifier '[' LIT_INTEGER ']' ';'			{ $$ =  astCreate(AST_decl_vet,$2,$1,$4, 0, 0);}
 	;
 
-init_vector: init
-	| init init_vector
+init_vector: init                                                                               $$ =  astCreate(AST_init,$1, 0, 0, 0, 0);}
+	| init init_vector                                                                 $$ =  astCreate(AST_init_vector,$2,$1, 0, 0, 0);}
 	;
 
 decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_pointer,$3,$1,$5, 0, 0);}
@@ -124,24 +123,24 @@ decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_poin
 
 //Function
 
-function: type identifier '(' n_param ')' command ';'
+function: type identifier '(' n_param ')' command ';'                   {$$ = 0} //TODO
 	;
 
-n_param: 
-	| param n_param_2
+n_param:
+	| param n_param_2                                                          {$$ = 0} //TODO
 	;
 
 n_param_2:
-	| ',' param n_param_2
+	| ',' param n_param_2                                                      {$$ = 0} //TODO
 	;
 
-param: type identifier
-	| type '$' identifier
+param: type identifier                                                                   {$$ = 0} //TODO
+	| type '$' identifier                                                            {$$ = 0} //TODO
 	;
 
 // Commands
-command: simple_command
-	| block
+command: simple_command                                                        {$$ = $1}
+	| block                                                                                {$$ = $1}
        ;
 
 block: '{' command_block '}' {$$ = astCreate(AST_bloco, 0, $2, 0, 0, 0);}
@@ -176,7 +175,7 @@ if	: KW_IF '(' expression ')' KW_THEN command 		{ $$ = astCreate(AST_KW_IF, 0, $
 	| KW_IF '(' expression ')' KW_ELSE command KW_THEN command { $$ = astCreate(AST_KW_IF_ELSE, 0, $3,$6,$8, 0);}
 	;
 
-loop: KW_LOOP command '(' expression ')' 			{ $$ = astCreate(AST_KW_LOOP, 0, $3,$5, 0, 0);}
+loop: KW_LOOP command '(' expression ')' 			{ $$ = astCreate(AST_KW_LOOP, 0, $2,$4, 0, 0);}
 	;
 
 
@@ -211,7 +210,7 @@ expression: element
 	| '$' expression			{$$=0;}
 	;
 
-n_param_ref: 
+n_param_ref:
 	| expression n_param_ref2
 	;
 

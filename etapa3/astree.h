@@ -11,7 +11,6 @@ Matrículas: 192332 e 213991.
 
 #define MAX_SONS 4
 
-//#define AST_SYMBOL 1
 #define AST_ADD    	    1
 #define AST_SUB             2
 #define AST_MUL             3
@@ -59,8 +58,10 @@ Matrículas: 192332 e 213991.
 
 #define AST_decl_var	    67
 #define AST_decl_vetch      68
-#define AST_decl_vet	    69		
+#define AST_decl_vet	    69
 #define AST_decl_pointer    70
+
+#define AST_SYMBOL 71
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,12 +70,12 @@ Matrículas: 192332 e 213991.
 typedef struct astreenode
 {
   int type;
-  HASH_NODE *symbol;	
+  HASH_NODE *symbol;
   struct astreenode* son[MAX_SONS];
   int impresso;
 }ASTREE;
 
-ASTREE * astCreate(int type, ASTREE *s0, ASTREE *s1, ASTREE *s2, ASTREE *s3);
+ASTREE *astCreate(int type, HASH_NODE *symbol, ASTREE *s0, ASTREE *s1, ASTREE *s2, ASTREE *s3);
 void asPrintTree(ASTREE *root, int level);
 void asPrintSingle(ASTREE *node);
 
