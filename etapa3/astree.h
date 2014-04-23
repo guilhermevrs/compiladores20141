@@ -40,11 +40,12 @@ Matrículas: 192332 e 213991.
 #define AST_LIT_CHAR        26
 	#define AST_LIT_STRING      27
 	#define AST_TK_IDENTIFIER   28
+	#define AST_NEG 			29
 
 	#define AST_MAIOR	    30
 	#define AST_MENOR   	    31
 	#define AST_exprComParent   32
-
+	#define AST_cifrao			33
 	#define AST_bloco           42
 	#define AST_outp    	    44
 
@@ -57,10 +58,16 @@ Matrículas: 192332 e 213991.
 	#define AST_decl_vetch      68
 	#define AST_decl_vet	    69
 	#define AST_decl_pointer    70
-#define AST_init_vector     71
+	#define AST_init_vector     71
 #define AST_command_block     72
-#define AST_init                   73
-#define AST_program          74
+	#define AST_init                   73
+	#define AST_program          74
+	#define AST_function		75
+	#define AST_n_param 		76
+	#define AST_param 			77
+	#define AST_param2			78
+	#define AST_n_param_2		79
+
 
 #define AST_SYMBOL 80
 

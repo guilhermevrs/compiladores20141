@@ -85,57 +85,57 @@ Matrículas: 192332 e 213991.
 
 %%
 
-program: decl_global                            {$$ = $1;}
-	| decl_global program              {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);}
-	| function                                  {$$ = $1;}
-	| function program                   {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);}
+program: decl_global                     {$$ = $1;}
+	| decl_global program              	 {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);} //
+	| function                           {$$ = $1;}
+	| function program                   {$$ = astCreate(AST_program, 0, $1, $2, 0, 0);} //
 	;
 
 
 // Declarations
 
-decl_global: decl                                  {$$ = $1;}
+decl_global: decl                              {$$ = $1;}
 	| decl_vector                              {$$ = $1;}
 	| decl_pointer                             {$$ = $1;}
 	;
 
-decl: type identifier ':' init ';'	{ $$ = astCreate(AST_decl_var,0, $2,$1,$4, 0);}
+decl: type identifier ':' init ';'	{ $$ = astCreate(AST_decl_var, $2, $1, $4, 0, 0);} //
 	;
 
-init	: LIT_INTEGER			{ $$ = astCreate(AST_LIT_INTEGER,$1, 0, 0, 0, 0);}
-	| LIT_FALSE			{ $$ = astCreate(AST_LIT_FALSE,$1, 0, 0, 0, 0);}
-	| LIT_TRUE			{ $$ = astCreate(AST_LIT_TRUE,$1, 0, 0, 0, 0);}
-	| LIT_CHAR			{ $$ = astCreate(AST_LIT_CHAR,$1, 0, 0, 0, 0);}
-	| LIT_STRING			{ $$ = astCreate(AST_LIT_STRING,$1, 0, 0, 0, 0);}
+init: LIT_INTEGER				{ $$ = astCreate(AST_LIT_INTEGER,$1, 0, 0, 0, 0);}  //ok
+	| LIT_FALSE					{ $$ = astCreate(AST_LIT_FALSE,$1, 0, 0, 0, 0);}	//ok
+	| LIT_TRUE					{ $$ = astCreate(AST_LIT_TRUE,$1, 0, 0, 0, 0);}		//ok
+	| LIT_CHAR					{ $$ = astCreate(AST_LIT_CHAR,$1, 0, 0, 0, 0);}		//ok
+	| LIT_STRING				{ $$ = astCreate(AST_LIT_STRING,$1, 0, 0, 0, 0);}	//ok
 	;
 
-decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';' 	{ $$ = astCreate(AST_decl_vetch, 0, $2, $1, $4, $7);}
-	| type identifier '[' LIT_INTEGER ']' ';'							{ $$ =  astCreate(AST_decl_vet, 0, $2, $1, $4, 0);}
+decl_vector: type identifier '[' LIT_INTEGER ']' ':' init_vector ';' 	{ $$ = astCreate(AST_decl_vetch,$2,$1,$4,$7, 0);} //ok
+	| type identifier '[' LIT_INTEGER ']' ';'							{ $$ =  astCreate(AST_decl_vet, $2, $1, $4, 0, 0);} //ok
 	;
 
-init_vector: init                                                       //{$$ =  astCreate(AST_init,$1, 0, 0, 0, 0);}
-	| init init_vector                                                  //{$$ =  astCreate(AST_init_vector,$2,$1, 0, 0, 0);}
+init_vector: init                                                       {$$ =  astCreate(AST_init,0, $1, 0, 0, 0);} //
+	| init init_vector                                                  {$$ =  astCreate(AST_init_vector, 0, $2,$1, 0, 0);} //
 	;
 
-decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_pointer,$3,$1,$5, 0, 0);}
+decl_pointer: type '$' identifier ':' init ';'				{ $$ = astCreate(AST_decl_pointer,$3,$1,$5, 0, 0);} //
 	;
 
 
 //Function
 
-function: type identifier '(' n_param ')' command ';'                   {$$ = 0;} //TODO
+function: type identifier '(' n_param ')' command ';'                   {$$ = astCreate(AST_function, $2, $1, $4, $6, 0);} //
 	;
 
 n_param:
-	| param n_param_2                                                          {$$ = 0;} //TODO
+	| param n_param_2                                                          {$$ = astCreate(AST_n_param, 0, $1, $2, 0, 0);}
 	;
 
 n_param_2:
 	| ',' param n_param_2                                                      {$$ = 0;} //TODO
 	;
 
-param: type identifier                                                                   {$$ = 0;} //TODO
-	| type '$' identifier                                                            {$$ = 0;} //TODO
+param: type identifier                            {$$ = astCreate(AST_param, $2, $1, 0, 0, 0);}
+	| type '$' identifier                         {$$ = astCreate(AST_param, $3, $1, 0, 0, 0);}
 	;
 
 // Commands
