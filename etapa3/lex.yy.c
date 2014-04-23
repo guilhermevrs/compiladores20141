@@ -953,7 +953,7 @@ YY_RULE_SETUP
 case 28:
 YY_RULE_SETUP
 #line 65 "scanner.l"
-{ yylval.symbol = atoi(yytext);
+{
 				  hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
 				  return LIT_INTEGER;
 				}

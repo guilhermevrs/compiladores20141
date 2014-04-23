@@ -62,7 +62,7 @@ int running;
 				  return LIT_FALSE;
 				}
 
-[0-9]+				{ yylval.symbol = atoi(yytext);
+[0-9]+				{
 				  hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
 				  return LIT_INTEGER;
 				}

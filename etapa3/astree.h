@@ -6,86 +6,69 @@ Alunos: Guilherme Schwade e Guilherme Pretto.
 Matrículas: 192332 e 213991.
 */
 
-#ifndef ASTREE_READER
-#define ASTREE_READER
+#ifndef ASTREE_HEADER
+#define ASTREE_HEADER
+
+#include "hash.h"
 
 #define MAX_SONS 4
 
-	#define AST_ADD    	    1
-	#define AST_SUB             2
-	#define AST_MUL             3
-	#define AST_DIV       	    4
-
-	#define AST_KW_WORD         5
-	#define AST_KW_BOOL         7
-	#define AST_KW_BYTE         8
-
-	#define AST_KW_IF           9
-	#define AST_KW_IF_ELSE	    10
-	#define AST_KW_LOOP         11
-	#define AST_KW_INPUT        13
-	#define AST_KW_OUTPUT       14
-	#define AST_KW_RETURN       15
-
-	#define AST_OPERATOR_LE     16
-	#define AST_OPERATOR_GE     17
-	#define AST_OPERATOR_EQ     18
-	#define AST_OPERATOR_NE     19
-	#define AST_OPERATOR_AND    20
-	#define AST_OPERATOR_OR     21
-
-#define AST_LIT_INTEGER     22
-	#define AST_LIT_TRUE        24
-	#define AST_LIT_FALSE       25
-#define AST_LIT_CHAR        26
-	#define AST_LIT_STRING      27
-	#define AST_TK_IDENTIFIER   28
-	#define AST_NEG 			29
-
-	#define AST_MAIOR	    30
-	#define AST_MENOR   	    31
-	#define AST_exprComParent   32
-	#define AST_cifrao			33
-	#define AST_bloco           42
-	#define AST_outp    	    44
-
-	#define AST_ATRIB_CONST     60
-	#define AST_ATRIB_VET       61
-	#define AST_exprComChavesTK_IDENTIFIER 62
-	#define AST_exprComParFuncTK_IDENTIFIER 63
-
-	#define AST_decl_var	    67
-	#define AST_decl_vetch      68
-	#define AST_decl_vet	    69
-	#define AST_decl_pointer    70
-	#define AST_init_vector     71
-#define AST_command_block     72
-	#define AST_init                   73
-	#define AST_program          74
-	#define AST_function		75
-	#define AST_n_param 		76
-	#define AST_param 			77
-	#define AST_param2			78
-	#define AST_n_param_2		79
-
-
-#define AST_SYMBOL 80
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "hash.h"
+#define ASTREE_DEF_SYMBOL      1
+#define ASTREE_DEF_ADD         2
+#define ASTREE_DEF_SUB         3
+#define ASTREE_DEF_DIV         4
+#define ASTREE_DEF_MUL         5
+#define ASTREE_DEF_LESS        6
+#define ASTREE_DEF_GREATER     7
+#define ASTREE_DEF_OP_LE       8
+#define ASTREE_DEF_OP_GE       9
+#define ASTREE_DEF_OP_EQ       10
+#define ASTREE_DEF_OP_NE       11
+#define ASTREE_DEF_OP_AND      12
+#define ASTREE_DEF_OP_OR       13
+#define ASTREE_DEF_IF          23
+#define ASTREE_DEF_IFELSE      25
+#define ASTREE_DEF_LOOP        26
+#define ASTREE_DEF_INPUT       27
+#define ASTREE_DEF_OUTPUT      28
+#define ASTREE_DEF_RETURN      29
+#define ASTREE_DEF_VEC_ACCESS      30
+#define ASTREE_DEF_FUNC_CALL       31
+#define ASTREE_DEF_REF         32
+#define ASTREE_DEF_DEREF       33
+#define ASTREE_DEF_NEG         34
+#define ASTREE_DEF_DECL        35
+#define ASTREE_DEF_DECL_VEC        36
+#define ASTREE_DEF_DECL_VEC_INIT   37
+#define ASTREE_DEF_DECL_POINTER    38
+#define ASTREE_DEF_FUNC        39
+#define ASTREE_DEF_INIT_VEC        40
+#define ASTREE_DEF_PARAM       41
+#define ASTREE_DEF_PARAM_REF       42
+#define ASTREE_DEF_COMMAND_BLOCK   43
+#define ASTREE_DEF_OUT_LST     44
+#define ASTREE_DEF_ATTR        45
+#define ASTREE_DEF_ATTR_VEC        46
+#define ASTREE_DEF_PROGRAM     47
+#define ASTREE_DEF_KWWORD      48
+#define ASTREE_DEF_KWBYTE      49
+#define ASTREE_DEF_KWBOOL      50
+#define ASTREE_DEF_PARAM_POINTER   51
+#define ASTREE_DEF_BLOCK       52
+#define ASTREE_DEF_SIMPLE_COMMAND  53
 
 typedef struct astreenode
 {
-  int type;
-  HASH_NODE *symbol;
-  struct astreenode* son[MAX_SONS];
-  int impresso;
-}ASTREE;
+    int type;
+    HASH_NODE * symbol;
+    struct astreenode* son[MAX_SONS];
+} ASTREE;
 
-ASTREE *astCreate(int type, HASH_NODE *symbol, ASTREE *s0, ASTREE *s1, ASTREE *s2, ASTREE *s3);
-void asPrintTree(ASTREE *root, int level);
-void asPrintSingle(ASTREE *node);
+ASTREE * astCreate(int type, HASH_NODE * symbol, ASTREE *s0, ASTREE *s1, ASTREE *s2, ASTREE *s3);
+void astPrintSingle(ASTREE *node);
+void astPrintTree(ASTREE *root, int level);
+void astCompile(ASTREE *root, FILE * out);
+
 
 
 #endif

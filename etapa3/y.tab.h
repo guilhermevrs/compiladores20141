@@ -95,16 +95,15 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 20 "parser.y"
+#line 51 "parser.y"
 
-  HASH_NODE *symbol;
-  ASTREE *astree;
-  int number;
+    HASH_NODE *symbol;
+    ASTREE *ast;
 
 
 
 /* Line 2068 of yacc.c  */
-#line 108 "y.tab.h"
+#line 107 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
