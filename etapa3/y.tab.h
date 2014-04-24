@@ -98,7 +98,7 @@ typedef union YYSTYPE
 #line 51 "parser.y"
 
     HASH_NODE *symbol;
-    ASTREE *ast;
+    ASTREE *astreeObject;
 
 
 

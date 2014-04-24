@@ -63,7 +63,7 @@ int running;
 				}
 
 [0-9]+				{
-				  hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
+				  yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
 				  return LIT_INTEGER;
 				}
 

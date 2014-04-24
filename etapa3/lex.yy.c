@@ -954,7 +954,7 @@ case 28:
 YY_RULE_SETUP
 #line 65 "scanner.l"
 {
-				  hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
+				  yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
 				  return LIT_INTEGER;
 				}
 	YY_BREAK

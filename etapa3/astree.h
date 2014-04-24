@@ -57,6 +57,8 @@ Matrículas: 192332 e 213991.
 #define ASTREE_DEF_BLOCK       52
 #define ASTREE_DEF_SIMPLE_COMMAND  53
 
+#define ASTREE_DEF_DEBUG 1000
+
 typedef struct astreenode
 {
     int type;

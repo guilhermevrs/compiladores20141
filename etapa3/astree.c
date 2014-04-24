@@ -12,9 +12,16 @@ Matrículas: 192332 e 213991.
 
 ASTREE *astCreate(int type, HASH_NODE *symbol, ASTREE *s0, ASTREE *s1, ASTREE *s2, ASTREE *s3)
 {
+
+  if(symbol != 0)
+  {
+    printf("DEBUG: %s\n", symbol->text);
+  }
+
   ASTREE *node;
   node = (ASTREE*)calloc(1,sizeof(ASTREE));
   node->type = type;
+
   node->symbol = symbol;
   node->son[0] = s0;
   node->son[1] = s1;
@@ -28,14 +35,53 @@ void astPrintSingle(ASTREE *node)
     if(node == 0)
         return;
     printf("ASTREE(");
-    switch(node->type)
+    switch (node->type)
     {
-        default: printf("DEFAULT, "); break;
-    }
+        case ASTREE_DEF_SYMBOL:    printf("SYMBOL, "); break; //Leaf
+        case ASTREE_DEF_ADD:       printf("ADD, ");    break; //ok
+        case ASTREE_DEF_SUB:       printf("SUB, ");    break; //ok
+        case ASTREE_DEF_MUL:       printf("MUL, ");    break; //ok
+        case ASTREE_DEF_LESS:      printf("LESS, ");   break; //ok
+        case ASTREE_DEF_GREATER:   printf("GREATER, ");    break; //ok
+        case ASTREE_DEF_OP_LE:     printf("OP_LE, ");  break; //ok
+        case ASTREE_DEF_OP_GE:     printf("OP_GE, ");  break; //ok
+        case ASTREE_DEF_OP_EQ:     printf("OP_EQ, ");  break; //ok
+        case ASTREE_DEF_OP_NE:     printf("OP_NE, ");  break; //ok
+        case ASTREE_DEF_OP_AND:    printf("OP_AND, "); break; //ok
+        case ASTREE_DEF_OP_OR:     printf("OP_OR, ");  break; //ok
+        case ASTREE_DEF_INPUT:     printf("INPUT, ");  break; //ok
+        case ASTREE_DEF_OUTPUT:    printf("OUTPUT, "); break; //ok
+        case ASTREE_DEF_RETURN:    printf("RETURN, "); break; //ok
+        case ASTREE_DEF_IF:        printf("IF,");      break; //ok
+        case ASTREE_DEF_IFELSE:    printf("IFELSE, "); break; //ok
+        case ASTREE_DEF_LOOP:      printf("LOOP, ");   break; //ok
+        case ASTREE_DEF_FUNC_CALL:     printf("FUNC_CALL, ");  break; //ok
+        case ASTREE_DEF_REF:       printf("REF, ");    break; //ok
+        case ASTREE_DEF_DEREF:     printf("DEREF, ");  break; //ok
+        case ASTREE_DEF_DECL:      printf("DECL, ");   break; //ok
+        case ASTREE_DEF_DECL_VEC:  printf("DECL_VEC, ");   break; //ok
+        case ASTREE_DEF_DECL_VEC_INIT: printf("VEC_INI, ");    break; //ok
+        case ASTREE_DEF_INIT_VEC:  printf("INIT_VEC, ");   break; //ok
+        case ASTREE_DEF_DECL_POINTER:  printf("DECL_POINT, "); break; //ok
+        case ASTREE_DEF_VEC_ACCESS:    printf("VEC_ACCESS, "); break; //ok
+        case ASTREE_DEF_FUNC:      printf("FUNC, ");   break; //ok
+        case ASTREE_DEF_PARAM:     printf("PARAM, ");  break; //ok
+        case ASTREE_DEF_PARAM_POINTER: printf("PARAM_POINT, ");break; //ok
+        case ASTREE_DEF_PARAM_REF:     printf("PARAM_REF, ");  break; //ok
+        case ASTREE_DEF_COMMAND_BLOCK: printf("COMM_BLOCK, "); break; //ok
+        case ASTREE_DEF_OUT_LST:   printf("OUT_LST, ");    break; //ok
+        case ASTREE_DEF_ATTR:      printf("ATTR, ");   break; //ok
+        case ASTREE_DEF_ATTR_VEC:  printf("ATTR_VEC, ");   break; //ok
+        case ASTREE_DEF_PROGRAM:   printf("PROGRAM, ");    break; //default
+        case ASTREE_DEF_SIMPLE_COMMAND:printf("S_COMMAND, ");  break; //ok
+        case ASTREE_DEF_BLOCK:     printf("BLOCK, ");  break; //ok
+        default:        printf("DEFAULT, ");    break;
+
+    };
     if(node->symbol != 0)
     {
         printf("Text: %s, ", node->symbol->text);
-        printf("Type: %d", node->symbol->type);
+        printf("Type: %d)", node->symbol->type);
     }
 }
 
@@ -47,6 +93,7 @@ void astPrintTree(ASTREE *root, int level)
     {
         return;
     }
+    printf("\n");
     for (i=0; i<level; ++i)
     {
         printf("  ");
@@ -56,10 +103,9 @@ void astPrintTree(ASTREE *root, int level)
     {
         astPrintTree(root->son[i], level+1);
     }
-
 }
 
-void callSonsDecompile(ASTREE *root, FILE * out)
+void internalCompile(ASTREE *root, FILE * out)
 {
     int i;
     if(root == 0)
@@ -154,7 +200,7 @@ void astCompile(ASTREE *root, FILE * out)
             break;
 
         case ASTREE_DEF_COMMAND_BLOCK:
-            callSonsDecompile(root, out);
+            internalCompile(root, out);
             break;
 
         case ASTREE_DEF_BLOCK:
@@ -351,7 +397,7 @@ void astCompile(ASTREE *root, FILE * out)
             break;
 
         default:
-            callSonsDecompile(root, out);
+            internalCompile(root, out);
             if(root->son[0] == 0)
             {// Leaf: returns its value
                 if (root -> symbol != 0)

@@ -48,9 +48,12 @@ int main(int argc, char **argv)
 
     yyparse();
 
-    //astPrintTree(Tree, 0);
+    hashPrint(&Table);
+
+    astPrintTree(Tree, 0);
     astCompile(Tree, out);
-    // hashPrint(&Table);
+
+    printf("\n");
 
     exit(0);
 }

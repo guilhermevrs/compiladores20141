@@ -50,7 +50,7 @@ ASTREE *Tree;
 %union
 {
     HASH_NODE *symbol;
-    ASTREE *ast;
+    ASTREE *astreeObject;
 }
 
 %left OPERATOR_OR OPERATOR_AND
@@ -59,32 +59,32 @@ ASTREE *Tree;
 %left '*' '/'
 %nonassoc '&' '$' '!'
 
-%type<ast> element
-%type<ast> identifier
-%type<ast> n_param_ref
-%type<ast> n_param_ref2
-%type<ast> expression
-%type<ast> type
-%type<ast> out
-%type<ast> attribution
-%type<ast> simple_command
-%type<ast> command_block
-%type<ast> command
-%type<ast> param
-%type<ast> n_param
-%type<ast> function
-%type<ast> decl_pointer
-%type<ast> init_vector
-%type<ast> decl_vector
-%type<ast> init decl
-%type<ast> decl_global
-%type<ast> program
-%type<ast> root
+%type<astreeObject> element
+%type<astreeObject> identifier
+%type<astreeObject> n_param_ref
+%type<astreeObject> n_param_ref2
+%type<astreeObject> expression
+%type<astreeObject> type
+%type<astreeObject> out
+%type<astreeObject> attribution
+%type<astreeObject> simple_command
+%type<astreeObject> command_block
+%type<astreeObject> command
+%type<astreeObject> param
+%type<astreeObject> n_param
+%type<astreeObject> function
+%type<astreeObject> decl_pointer
+%type<astreeObject> init_vector
+%type<astreeObject> decl_vector
+%type<astreeObject> init decl
+%type<astreeObject> decl_global
+%type<astreeObject> program
+%type<astreeObject> inicio
 
 
 %%
 
-root: program { $$ = $1; Tree = $$; }}
+inicio: program { $$ = $1; Tree = $$; }
     ;
 
 program: decl_global { $$ = $1; }
@@ -92,8 +92,6 @@ program: decl_global { $$ = $1; }
     | function { $$ = $1; }
     | function program { $$ = astCreate (ASTREE_DEF_PROGRAM,0,$1,$2,0,0); }
     ;
-
-// DECLARATIONS
 
 decl_global: decl { $$ = $1; }
     | decl_vector { $$ = $1; }
@@ -135,7 +133,6 @@ param: { $$ = 0; }
     | ',' type '$' identifier param { $$ = astCreate (ASTREE_DEF_PARAM_POINTER,0,$2,$4,$5,0); }
     ;
 
-// COMMANDS
 command: simple_command { $$ = astCreate (ASTREE_DEF_SIMPLE_COMMAND,0,$1,0,0,0); }// { $$ = $1; }
     | '{' command_block '}' { $$ = astCreate (ASTREE_DEF_BLOCK,0,$2,0,0,0); } // { $$ = $2; }
     ;
@@ -161,7 +158,6 @@ out: expression { $$ = $1; }
     | expression ',' out { $$ = astCreate (ASTREE_DEF_OUT_LST,0,$1,$3,0,0); }
     ;
 
-// TYPES
 
 type:KW_WORD { $$ = astCreate(ASTREE_DEF_KWWORD,0,0,0,0,0); }
     | KW_BYTE { $$ = astCreate(ASTREE_DEF_KWBYTE,0,0,0,0,0); }
