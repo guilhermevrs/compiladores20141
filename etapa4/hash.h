@@ -31,6 +31,7 @@ typedef struct hash_node
 {
 	char *text;
              int dataType;
+             int lineNumber;
 	int type;
 	struct hash_node *next;
 } HASH_NODE;

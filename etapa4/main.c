@@ -53,8 +53,6 @@ int main(int argc, char **argv)
     //astPrintTree(Tree, 0);
     //astCompile(Tree, out);
 
-    astTreeCheck(Tree);
-
     printf("\n");
 
     exit(0);

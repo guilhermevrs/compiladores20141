@@ -406,12 +406,11 @@ void astCompile(ASTREE *root, FILE * out)
         };
     }
 
-    void astTreeCheck(ASTREE *root)
+    int astTreeCheckDeclaration(ASTREE *root)
     {
+        int i, hasError = 0;
 
-        if(root == 0) return;
-
-        int i;
+        if(root == 0) return hasError;
 
         if(root->type == ASTREE_DEF_DECL || root->type == ASTREE_DEF_DECL_VEC || root->type == ASTREE_DEF_DECL_VEC_INIT ||
            root->type == ASTREE_DEF_DECL_POINTER || root->type == ASTREE_DEF_FUNC || root->type == ASTREE_DEF_PARAM)
@@ -419,9 +418,12 @@ void astCompile(ASTREE *root, FILE * out)
 
             if(root->son[1]->symbol == 0) {
                 printf("Line %d: Declaration is missing the identifier name.\n", root->lineNumber);
+                hasError = 1;
             } else {
-                if (root->son[1]->symbol->type != SYMBOL_IDENTIFIER)
+                if (root->son[1]->symbol->type != SYMBOL_IDENTIFIER){
                     printf("Line %d: Symbol %s already defined.\n", root->lineNumber, root->son[1]->symbol->text);
+                    hasError = 1;
+                }
                 else if (root->type == ASTREE_DEF_DECL) root->son[1]->symbol->type = DATATYPE_VARIABLE;
                 else if (root->type == ASTREE_DEF_DECL_VEC) root->son[1]->symbol->type = DATATYPE_VECTOR;
                 else if (root->type == ASTREE_DEF_DECL_VEC_INIT) root->son[1]->symbol->type = DATATYPE_VECTOR;
@@ -431,10 +433,27 @@ void astCompile(ASTREE *root, FILE * out)
             }
         }
 
-        astTreeCheck(root->son[0]);
-        astTreeCheck(root->son[1]);
-        astTreeCheck(root->son[2]);
-        astTreeCheck(root->son[3]);
+        hasError += astTreeCheckDeclaration(root->son[0]);
+        hasError += astTreeCheckDeclaration(root->son[1]);
+        hasError += astTreeCheckDeclaration(root->son[2]);
+        hasError += astTreeCheckDeclaration(root->son[3]);
+
+        return (hasError > 0) ? 1 : 0;
+    }
+
+    int astTreeCheckUndeclared(HASH_TABLE *Table)
+    {
+        int address;
+        HASH_NODE *node;
+
+        for(address=1;address < HASH_SIZE; address++)
+            if(Table->node[address])
+                for(node=Table->node[address]; node!=0; node=node->next)
+                    if(node->type == SYMBOL_IDENTIFIER)
+                            printf("ERRO - Line %d: Expression %s is missing declaration!!!\n", node->lineNumber, node->text);
+
+        return 0;
+
     }
 
 // END OF FILE

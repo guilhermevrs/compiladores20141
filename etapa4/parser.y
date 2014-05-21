@@ -6,9 +6,6 @@ Alunos: Guilherme Schwade e Guilherme Pretto.
 Matrículas: 192332 e 213991.
 */
 
-// UFRGS - INF01147 Compiladores - 2014/1
-// Caroline Zingano de Aguiar and Gabriel Manzoni Moreira
-
 %{
 
 #include <stdio.h>
@@ -17,6 +14,7 @@ Matrículas: 192332 e 213991.
 #include "hash.h"
 
 ASTREE *Tree;
+extern HASH_TABLE Table;
 
 %}
 
@@ -84,7 +82,7 @@ ASTREE *Tree;
 
 %%
 
-inicio: program { $$ = $1; Tree = $$; }
+inicio: program { $$ = $1; Tree = $$;  astTreeCheckDeclaration(Tree); astTreeCheckUndeclared(&Table);}
     ;
 
 program: decl_global { $$ = $1; }

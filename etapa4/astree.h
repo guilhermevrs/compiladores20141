@@ -72,7 +72,8 @@ void astPrintSingle(ASTREE *node);
 void astPrintTree(ASTREE *root, int level);
 void astCompile(ASTREE *root, FILE * out);
 
-void astTreeCheck(ASTREE *node);
+int astTreeCheckDeclaration(ASTREE *node);
+int astTreeCheckUndeclared(HASH_TABLE *Table);
 
 
 
