@@ -10,6 +10,8 @@ Matrículas: 192332 e 213991.
 #include <stdlib.h>
 #include "astree.h"
 
+int pointer = 0, ilegalExp = 0;
+
 ASTREE *astCreate(int type, HASH_NODE *symbol, ASTREE *s0, ASTREE *s1, ASTREE *s2, ASTREE *s3)
 {
 
@@ -406,6 +408,18 @@ void astCompile(ASTREE *root, FILE * out)
     };
 }
 
+int dataTypeMap(int astType)
+{
+    switch (astType)
+    {
+        case ASTREE_DEF_KWWORD: return DATATYPE_WORD;
+        case ASTREE_DEF_KWBOOL: return DATATYPE_BOOL;
+        case ASTREE_DEF_KWBYTE: return DATATYPE_BYTE;
+    }
+}
+
+// SEMANTIC ACTIONS/CHECKS
+
 void astTreeCheck(ASTREE *node)
 {
     if(node == 0)
@@ -458,6 +472,100 @@ void astTreeCheck(ASTREE *node)
     astTreeCheck(node->son[1]);
     astTreeCheck(node->son[2]);
     astTreeCheck(node->son[3]);
+}
+
+int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux)
+{
+    int help, verified, expr1, expr2;
+    int expFlag = 0;
+    
+    if(ast != 0)
+    {
+        switch(ast->type)
+        {
+            case ASTREE_DEF_ADD:
+                expr1 = expressionAnalyzes(ast->son[0], rootAux);
+                if(pointer == 1)
+                        expFlag = 1;
+                pointer = 0;
+                expr2 = expressionAnalyzes(ast->son[1], rootAux);
+                if(expFlag == 1 && pointer == 1)
+                    ilegalExp = 1;
+                else if (expFlag == 1)
+                {
+                    pointer = 1;
+                }
+                expFlag = 0;
+                verified = operationTypesCheck(expr1, expr2);
+                help = resultOperTypesCheck(verified, expr1, expr2, ast->lineNumber);
+                break;
+        }
+    }
+    return help;
+}
+
+int operationTypesCheck(int expr1, int expr2)
+{
+    if((expr1 != 0) && (expr2 != 0))
+    {
+        if(expr1 != expr2)
+        {
+            if((expr1 == DATATYPE_BOOL) || (expr2 == DATATYPE_BOOL))
+            {
+                return 1;
+            }
+            if((expr1 == DATATYPE_WORD) || (expr2 == DATATYPE_WORD))
+            {
+                return 2;
+            }
+            if((expr1 == DATATYPE_BYTE) || (expr2 == DATATYPE_BYTE))
+            {
+                return 3;
+            }           
+        }
+        else
+        {
+            return 4;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int resultOperTypesCheck(int verified, int expr1, int expr2, int lineNumber)
+{
+    int help;
+
+    if(verified == 0)
+    {
+        printf("ERRO - Line %d: Undeclared variables operation!!!\n", lineNumber);
+        help = 0;
+    }
+    else
+    {
+        if(verified == 1)
+        {
+            printf("WARNING - Line %d: boolean variable in the operation!!!\n", lineNumber);
+        }
+        else
+        {
+            if(verified == 2)
+            {
+                printf("WARNING - Line %d: word variable in the operation!!!\n", lineNumber);
+            }
+            if(verified == 3)
+            {
+                printf("WARNING - Line %d: byte variable in the operation!!!\n", lineNumber);
+            }
+        }
+        if(expr1 >= expr2)
+            help = expr1;
+        else
+            help = expr2;
+    }
+    return help;
 }
 
 // END OF FILE

@@ -26,6 +26,10 @@ Matrícula: 192332 e 213991.
 #define DATATYPE_FUNCTION 4
 #define DATATYPE_PARAM 5
 
+#define DATATYPE_WORD 6
+#define DATATYPE_BOOL 7
+#define DATATYPE_BYTE 8
+
 
 typedef struct hash_node
 {
