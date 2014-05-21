@@ -38,6 +38,7 @@ typedef struct hash_node
     int dataType;
     int lineNumber;
 	int type;
+	void *ast;
 	struct hash_node *next;
 } HASH_NODE;
 

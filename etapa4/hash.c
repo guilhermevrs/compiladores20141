@@ -67,8 +67,9 @@ HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type)
 		HASH_NODE *newNode;
 		newNode = (HASH_NODE*)calloc(1, sizeof(HASH_NODE));
 		newNode -> type = type;
-                          newNode -> lineNumber = getLineNumber();
-                          newNode -> dataType = DATATYPE_UNDEFINED;
+		newNode -> ast = 0;
+		newNode -> lineNumber = getLineNumber();
+	    newNode -> dataType = DATATYPE_UNDEFINED;
 		newNode -> text = (char*)calloc(sizeof(strlen(text)+1), sizeof(strlen(text)+1));
 		strcpy(newNode -> text, text);
 		newNode -> next = Table -> node[address];
