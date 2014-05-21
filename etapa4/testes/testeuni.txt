@@ -1,3 +1,5 @@
+byte jk:0;
+byte SD:3;
 
 word func(){
     jk = (7 * 5 + 7)

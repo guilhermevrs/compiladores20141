@@ -15,6 +15,7 @@ Matrículas: 192332 e 213991.
 
 ASTREE *Tree;
 extern HASH_TABLE Table;
+int error = 0;
 
 %}
 
@@ -82,7 +83,7 @@ extern HASH_TABLE Table;
 
 %%
 
-inicio: program { $$ = $1; Tree = $$; astTreeCheckDeclaration(Tree); astTreeCheckUndeclared(&Table); astCheckNature(Tree,Tree);}
+inicio: program { $$ = $1; Tree = $$; error += astTreeCheckDeclaration(Tree); error += astTreeCheckUndeclared(&Table); error += astCheckNature(Tree,Tree); return error;}
     ;
 
 program: decl_global { $$ = $1; }

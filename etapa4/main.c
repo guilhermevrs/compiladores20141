@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 {
     initMe();
 
-    int token;
+    int token, error;
     token = 0;
 
     if (argc < 2)
@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
 
 
-    yyparse();
+    error = yyparse();
 
     //hashPrint(&Table);
 
@@ -55,5 +55,7 @@ int main(int argc, char **argv)
 
     printf("\n");
 
-    exit(0);
+    error = (error > 0)? 4 : 0;
+
+    exit(error);
 }

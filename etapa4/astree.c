@@ -479,24 +479,27 @@ int astTreeCheckUndeclared(HASH_TABLE *Table)
 
 
 
-void astCheckNature(ASTREE *node,ASTREE *rootAux)
+int astCheckNature(ASTREE *node,ASTREE *rootAux)
 {
     int i,result, verRet=0, operIgual=0 , ePointer = 0, nPointer = 0;
-    
-    if(node==NULL) return;
-    
+
+    int error = 0;
+
+    if(node==NULL) return error;
+
     if((node->symbol != 0) && (node->type == ASTREE_DEF_FUNC))
     {
-        guardaTypeRet = node->symbol->dataType; 
+        guardaTypeRet = node->symbol->dataType;
     }
 
-    
-    switch (node->type) 
+
+    switch (node->type)
     {
         case ASTREE_DEF_INPUT:
             if(node->son[0]->symbol->type != SYMBOL_SCALAR)
             {
                 fprintf(stderr,"Semantic Error: Variable %s in INPUT is missing declaration at line %d \n",node->son[0]->symbol->text,node->lineNumber);
+                error = 1;
             }
             break;
 
@@ -504,11 +507,13 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
             if(node->son[0]->type == ASTREE_DEF_FUNC_CALL)
             {
                 printf("ERROR - Line %d: Returning a function!!!\n", node->lineNumber);
-                return;
+                error = 1;
+                return error;
             }
             if(node->son[0]->type == ASTREE_DEF_VEC_ACCESS)
             {
                 printf("ERROR - Line %d: Returning a vector. Sorry! This is not possible!!!\n", node->lineNumber);
+                error = 1;
             }
             else
             {
@@ -523,12 +528,15 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                     {
                         case DATATYPE_WORD:
                             printf("ERROR - Line %d: Returning type isn't the function type (word)!!!\n", node->lineNumber);
+                            error = 1;
                             break;
                         case DATATYPE_BYTE:
                             printf("ERROR - at line %d: Returning type isn't the function type (byte).\n", node->lineNumber);
+                            error = 1;
                             break;
                         case DATATYPE_BOOL:
                             printf("ERROR - at line %d: Returning type isn't the function type (bool).\n", node->lineNumber);
+                            error = 1;
                             break;
                     }
                 }
@@ -539,20 +547,29 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
             if(node->son[0]->son[0] == 0)
             {
                 if(node->son[0]->type != ASTREE_DEF_SYMBOL)
+                {
                     printf("ERROR - at line %d: IF expression containig just a literal.\n", node->lineNumber);
+                    error = 1;
+                }
             }
             else
             {
                 if((node->son[0]->son[1] == 0) && (node->son[0]->symbol != 0))
                 {
                     if(node->son[0]->type == ASTREE_DEF_FUNC_CALL)
+                    {
                         printf("ERROR - at line %d: function being called into IF expression.\n", node->lineNumber);
+                        error = 1;
+                    }
                 }
                 else
                 {
                     if((node->son[0]->son[1] != 0) && (node->son[0]->symbol == 0))
                         if(node->son[0]->type == (ASTREE_DEF_ADD || ASTREE_DEF_SUB || ASTREE_DEF_MUL || ASTREE_DEF_DIV))
+                        {
                             printf("ERROR - at line %d: arithmetic operation into an IF expression.\n", node->lineNumber);
+                            error = 1;
+                        }
                 }
             }
             break;
@@ -561,20 +578,29 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                 if(node->son[0]->son[0] == 0)
                 {
                     if(node->son[0]->type != ASTREE_DEF_SYMBOL)
+                    {
                         printf("ERROR - at line %d: IF expression containig just a literal.\n", node->lineNumber);
+                        error = 1;
+                    }
                 }
                 else
                 {
                     if((node->son[0]->son[1] == 0) && (node->son[0]->symbol != 0))
                     {
                         if(node->son[0]->type ==  ASTREE_DEF_FUNC_CALL)
+                        {
                             printf("ERROR - at line %d: function being called into IF expression.\n", node->lineNumber);
+                            error = 1;
+                        }
                     }
                     else
                     {
                         if((node->son[0]->son[1] != 0) && (node->son[0]->symbol == 0))
                             if(node->son[0]->type == (ASTREE_DEF_ADD || ASTREE_DEF_SUB || ASTREE_DEF_MUL || ASTREE_DEF_DIV))
+                            {
                                 printf("ERROR - at line %d: arithmetic operation into an IF expression.\n", node->lineNumber);
+                                error = 1;
+                            }
                     }
                 }
                 break;
@@ -585,13 +611,19 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                     if((node->son[0]->son[1] == 0) && (node->son[0]->symbol != 0))
                     {
                         if(node->son[0]->type == ASTREE_DEF_FUNC_CALL)
+                        {
                             printf("ERROR - at line %d: function being called into LOOP expression.\n", node->lineNumber);
+                            error = 1;
+                        }
                     }
                     else
                     {
                         if((node->son[0]->son[1] != 0) && (node->son[0]->symbol == 0))
                             if(node->son[0]->type == (ASTREE_DEF_ADD || ASTREE_DEF_SUB || ASTREE_DEF_MUL || ASTREE_DEF_DIV))
+                            {
                                 printf("ERROR - at line %d: arithmetic operation into an LOOP expression.\n", node->lineNumber);
+                                error = 1;
+                            }
                     }
                 }
                 break;
@@ -601,7 +633,7 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                 {
                     if(node->symbol->type == DATATYPE_FUNCTION)
                     {
-                        funcAst = 0;                    
+                        funcAst = 0;
                         funcCallCheck(rootAux, node->symbol->text);
                         result = paramsFuncCheck(funcAst->symbol->ast, node);
                         if(result == 1)
@@ -625,20 +657,28 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
             if(scalDecl == 1)
             {
                 if(funcAst->symbol->type == DATATYPE_FUNCTION)
+                {
                     printf("ERROR - at line %d: Variable %s is using the same name of a function.\n", node->lineNumber, node->son[0]->symbol->text);
+                    error = 1;
+                }
                 else
                     if(node->son[0]->type == ASTREE_DEF_SYMBOL)
+                    {
                         printf("ERROR - at line %d: Variable %s is declared as a vector.\n", node->lineNumber, node->son[0]->symbol->text);
+                        error = 1;
+                    }
             }
             if(scalDecl == 2)
             {
                 if(node->son[0]->type != ASTREE_DEF_SYMBOL)
+                {
                     printf("ERROR - at line %d: Variable %s is declared as a scalar.\n", node->lineNumber, node->son[0]->symbol->text);
+                }
             }
             if(node->son[0]->type == ASTREE_DEF_SYMBOL)
             {
                 if(node->son[0]->symbol->dataType != 0)
-                {   
+                {
                     operIgual = expressionAnalyzes(node->son[1], rootAux);
                     ePointer = pointer;
                     pointer = 0;
@@ -649,15 +689,17 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                         if(nPointer == 1)
                         {
                             printf("ERROR - at line %d: Ilegal expression with pointer.\n", node->lineNumber);
+                            error = 1;
                         }
                         if((node->son[0]->symbol->type == DATATYPE_POINTER) && (ePointer != 1))
                         {
                             printf("ERROR - at line %d: Variable %s is a pointer and can only receive expressions with pointer.\n", node->lineNumber, node->son[0]->symbol->text);
-
+                            error = 1;
                         }
                         if((node->son[0]->symbol->type != DATATYPE_POINTER) && (ePointer == 1))
                         {
                             printf("ERROR - at line %d: Variable %s is not a pointer and cannot receive expressions with pointer.\n", node->lineNumber, node->son[0]->symbol->text);
+                            error = 1;
                         }
                         if((node->son[0]->symbol->type != DATATYPE_POINTER) && (ePointer != 1))
                         {
@@ -665,27 +707,47 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                             {
                                 if(node->son[1]->type == ASTREE_DEF_FUNC_CALL)
                                     if(node->son[1]->symbol->type != DATATYPE_FUNCTION)
+                                    {
                                         printf("ERROR - at line %d: Variable %s is not declared as a function, but it is being used as one.\n", node->lineNumber, node->son[1]->symbol->text);
+                                        error = 1;
+                                    }
+
                                 switch(node->son[0]->symbol->dataType)
                                 {
                                     case DATATYPE_WORD:
                                         if(operIgual == DATATYPE_BOOL)
+                                        {
                                             printf("ERROR - at line %d: Variables containing different types.\n", node->lineNumber);
+                                            error = 1;
+                                        }
+
                                         break;
                                     case DATATYPE_BOOL:
                                         if((operIgual == DATATYPE_WORD) || (operIgual == DATATYPE_BYTE))
+                                        {
                                             printf("ERROR - at line %d: Variables containing different types.\n", node->lineNumber);
+                                            error = 1;
+                                        }
+
                                         break;
                                     case DATATYPE_BYTE:
                                         if(operIgual == DATATYPE_BOOL)
+                                        {
                                             printf("ERROR - at line %d: Variables containing different types.\n", node->lineNumber);
+                                            error = 1;
+                                        }
+
                                         break;
                                 }
                             }
                             else
                                 if(node->son[1]->type == ASTREE_DEF_FUNC_CALL)
                                     if(node->son[1]->symbol->type != DATATYPE_FUNCTION)
+                                    {
                                         printf("ERROR - at line %d: Variable %s is not declared as a function, but it is being used as one.\n", node->lineNumber, node->son[1]->symbol->text);
+                                        error = 1;
+                                    }
+
                         }
                     }
                 }
@@ -703,6 +765,7 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                         if(operIgual != DATATYPE_WORD)
                         {
                                 printf("ERROR - at line %d: Vector containing wrong parameters.\n", node->lineNumber);
+                                error = 1;
                         }
                         operIgual = expressionAnalyzes(node->son[1], rootAux);
                         ePointer = pointer;
@@ -712,31 +775,48 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                         if(nPointer == 1)
                         {
                             printf("ERROR - at line %d: Ilegal expression with pointer.\n", node->lineNumber);
+                            error = 1;
                         }
                         if((node->son[0]->symbol->type != DATATYPE_POINTER) && (ePointer == 1))
                         {
                             printf("ERROR - at line %d: Variable %s is not a pointer and cannot receive expressions with pointer.\n", node->lineNumber, node->son[0]->symbol->text);
+                            error = 1;
                         }
                         if(node->son[0]->symbol->dataType != operIgual)
                         {
                             if(node->son[1]->type == ASTREE_DEF_FUNC_CALL)
                                 if(node->son[1]->symbol->type != DATATYPE_FUNCTION)
-                                    printf("ERRO - Line %d: Variable %s is not declared as a function, but it is being used as one!!!\n", node->lineNumber, node->son[1]->symbol->text);                          
+                                {
+                                    printf("ERRO - Line %d: Variable %s is not declared as a function, but it is being used as one!!!\n", node->lineNumber, node->son[1]->symbol->text);
+                                    error = 1;
+                                }
+
                             if((node->son[0]->symbol->type != DATATYPE_POINTER) && (ePointer != 1))
                                             {
                                 switch(node->son[0]->symbol->dataType)
                                 {
                                     case DATATYPE_WORD:
                                         if(operIgual == DATATYPE_BOOL)
+                                        {
                                             printf("ERROR - at line %d: Variables containing different types.\n", node->lineNumber);
+                                            error = 1;
+                                        }
                                         break;
                                     case DATATYPE_BOOL:
                                         if((operIgual == DATATYPE_WORD) || (operIgual == DATATYPE_BYTE))
+                                        {
                                             printf("ERROR - at line %d: Variables containing different types.\n", node->lineNumber);
+                                            error = 1;
+                                        }
+
                                         break;
                                     case DATATYPE_BYTE:
                                         if(operIgual == DATATYPE_BOOL)
+                                        {
                                             printf("ERROR - at line %d: Variables containing different types.\n", node->lineNumber);
+                                            error = 1;
+                                        }
+
                                         break;
                                 }
                             }
@@ -744,7 +824,11 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
                         else
                             if(node->son[1]->type == ASTREE_DEF_FUNC_CALL)
                                 if(node->son[1]->symbol->type != DATATYPE_FUNCTION)
+                                {
                                     printf("ERRO - Line %d: Variable %s is not declared as a function, but it is being used as one!!!\n", node->lineNumber, node->son[1]->symbol->text);
+                                    error = 1;
+                                }
+
                     }
                 }
             }
@@ -753,10 +837,12 @@ void astCheckNature(ASTREE *node,ASTREE *rootAux)
         default:
         break;
     }
-    
+
     for(i=0; i<MAX_SONS; i++)
-       if(node->son[i]) 
-        astCheckNature(node->son[i],rootAux);
+       if(node->son[i])
+        error += astCheckNature(node->son[i],rootAux);
+
+    return (error > 0)? 1 : 0;
 }
 
 
@@ -764,6 +850,8 @@ int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux)
 {
     int help, verified, expr1, expr2;
     int expFlag = 0;
+
+    int error = 0;
 
     if(ast != 0)
     {
@@ -776,9 +864,16 @@ int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux)
                 if(scalDecl == 1)
                 {
                     if(funcAst->symbol->type == DATATYPE_FUNCTION)
+                    {
                         printf("ERRO - Line %d: Variable %s is using the same name of a function!!!\n", ast->lineNumber, ast->symbol->text);
+                        error = 1;
+                    }
                     else
+                    {
+                        error = 1;
                         printf("ERRO - Line %d: Variable %s is declared as a vector!!!\n", ast->lineNumber, ast->symbol->text);
+                    }
+
                 }
                 if(scalDecl == 3)
                     pointer = 1;
@@ -810,7 +905,7 @@ int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux)
                 verified = operationTypesCheck(expr1, expr2);
                 help = resultOperTypesCheck(verified, expr1, expr2, ast->lineNumber);
                 break;
-            
+
             case ASTREE_DEF_SUB:
                 expr1 = expressionAnalyzes(ast->son[0], rootAux);
                 expr2 = expressionAnalyzes(ast->son[1], rootAux);
@@ -1010,12 +1105,12 @@ void funcCallCheck(ASTREE *ast, char *text)
     }
     for(i=0; i < MAX_SONS; i++)
         funcCallCheck(ast->son[i], text);
-} 
+}
 
 void varDeclAsFuncCheck(ASTREE *ast, char *text)
 {
     int i;
-    
+
     if(ast==0)
         return;
 
@@ -1028,7 +1123,7 @@ void varDeclAsFuncCheck(ASTREE *ast, char *text)
             return;
         }
     }
-    
+
     if((ast->symbol!=0) && (ast->symbol->type == SYMBOL_SCALAR))
     {
         if(strcmp(ast->symbol->text, text) == 0)
@@ -1038,7 +1133,7 @@ void varDeclAsFuncCheck(ASTREE *ast, char *text)
             return;
         }
     }
-    
+
     if((ast->symbol!=0) && (ast->symbol->type == DATATYPE_POINTER))
     {
         if(strcmp(ast->symbol->text, text) == 0)
@@ -1058,7 +1153,7 @@ int paramsFuncCheck(ASTREE *ast, ASTREE *filho)
     ASTREE *nodeSon = 0;
 
     nodeSon = filho->son[0];
-    
+
     do
     {
         if(ast == 0)
@@ -1082,7 +1177,7 @@ int paramsFuncCheck(ASTREE *ast, ASTREE *filho)
                 return cont;
             }
             else
-            {  
+            {
                if(ast->symbol){
                 switch(ast->symbol->dataType)
                 {
@@ -1105,7 +1200,7 @@ int paramsFuncCheck(ASTREE *ast, ASTREE *filho)
                             {
                                 cont = 0;
                             }
-                        }   
+                        }
                         break;
                     case DATATYPE_BYTE:
                         if(nodeSon->son[0] != 0)
@@ -1126,7 +1221,7 @@ int paramsFuncCheck(ASTREE *ast, ASTREE *filho)
                             {
                                 cont = 0;
                             }
-                        }   
+                        }
                         break;
                     case DATATYPE_BOOL:
                         if(nodeSon->son[0] != 0)
@@ -1147,14 +1242,14 @@ int paramsFuncCheck(ASTREE *ast, ASTREE *filho)
                             {
                                 cont = 0;
                             }
-                        }   
+                        }
                         break;
                     default:
                         break;
                 }
                }
             }
-        } 
+        }
         ast = ast->son[1];
         nodeSon = nodeSon->son[1];
     }while(1);

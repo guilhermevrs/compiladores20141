@@ -76,7 +76,7 @@ int dataTypeMap(int astType);
 int astTreeCheckDeclaration(ASTREE *node);
 int astTreeCheckUndeclared(HASH_TABLE *Table);
 
-void astCheckNature(ASTREE *node,ASTREE *rootAux);
+int astCheckNature(ASTREE *node,ASTREE *rootAux);
 int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux);
 int resultOperTypesCheck(int verified, int expr1, int expr2, int lineNumber);
 int operationTypesCheck(int expr1, int expr2);

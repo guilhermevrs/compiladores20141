@@ -17,6 +17,9 @@ etapa4: y.tab.o lex.yy.o main.o hash.o astree.o
 test1: etapa4
 	./etapa4 testes/teste1.txt
 
+testuni: etapa4
+	./etapa4 testes/testeuni.txt
+
 main.o: main.c
 	gcc -c main.c
 
