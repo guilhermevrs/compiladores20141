@@ -75,10 +75,14 @@ int dataTypeMap(int astType);
 
 int astTreeCheckDeclaration(ASTREE *node);
 int astTreeCheckUndeclared(HASH_TABLE *Table);
-int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux);
-int operationTypesCheck(int expr1, int expr2);
-int resultOperTypesCheck(int verified, int expr1, int expr2, int lineNumber);
 
+void astCheckNature(ASTREE *node,ASTREE *rootAux);
+int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux);
+int resultOperTypesCheck(int verified, int expr1, int expr2, int lineNumber);
+int operationTypesCheck(int expr1, int expr2);
+void funcCallCheck(ASTREE *ast, char *text);
+void varDeclAsFuncCheck(ASTREE *ast, char *text);
+int paramsFuncCheck(ASTREE *ast, ASTREE *filho);
 
 
 #endif

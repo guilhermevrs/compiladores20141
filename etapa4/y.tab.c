@@ -466,8 +466,8 @@ static const yytype_uint8 yyprhs[] =
       21,    27,    29,    31,    33,    35,    44,    51,    53,    56,
       63,    71,    72,    76,    77,    82,    88,    90,    94,    95,
       98,   100,   107,   116,   122,   125,   128,   131,   135,   142,
-     144,   148,   150,   152,   154,   156,   161,   165,   169,   173,
-     177,   181,   185,   189,   193,   197,   201,   205,   209,   214,
+     144,   148,   150,   152,   154,   156,   161,   166,   170,   174,
+     178,   182,   186,   190,   194,   198,   202,   206,   210,   214,
      218,   221,   224,   225,   228,   229,   233,   235,   237,   239,
      241,   243,   245
 };
@@ -491,12 +491,12 @@ static const yytype_int8 yyrhs[] =
       -1,    66,    44,    63,    -1,    66,    37,    63,    38,    44,
       63,    -1,    63,    -1,    63,    41,    61,    -1,     3,    -1,
        5,    -1,     4,    -1,    67,    -1,    66,    37,    63,    38,
-      -1,    63,    28,    63,    -1,    63,    29,    63,    -1,    63,
-      31,    63,    -1,    63,    30,    63,    -1,    63,    26,    63,
-      -1,    63,    27,    63,    -1,    63,    13,    63,    -1,    63,
-      14,    63,    -1,    63,    15,    63,    -1,    63,    16,    63,
-      -1,    63,    17,    63,    -1,    63,    18,    63,    -1,    66,
-      39,    64,    40,    -1,    39,    63,    40,    -1,    32,    63,
+      -1,    66,    39,    64,    40,    -1,    63,    28,    63,    -1,
+      63,    29,    63,    -1,    63,    31,    63,    -1,    63,    30,
+      63,    -1,    63,    26,    63,    -1,    63,    27,    63,    -1,
+      63,    13,    63,    -1,    63,    14,    63,    -1,    63,    15,
+      63,    -1,    63,    16,    63,    -1,    63,    17,    63,    -1,
+      63,    18,    63,    -1,    39,    63,    40,    -1,    32,    63,
       -1,    33,    63,    -1,    -1,    63,    65,    -1,    -1,    41,
       63,    65,    -1,    19,    -1,    66,    -1,    20,    -1,    21,
       -1,    22,    -1,    23,    -1,    24,    -1
@@ -568,8 +568,8 @@ static const yytype_uint8 yyr2[] =
        5,     1,     1,     1,     1,     8,     6,     1,     2,     6,
        7,     0,     3,     0,     4,     5,     1,     3,     0,     2,
        1,     6,     8,     5,     2,     2,     2,     3,     6,     1,
-       3,     1,     1,     1,     1,     4,     3,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     4,     3,
+       3,     1,     1,     1,     1,     4,     4,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        2,     2,     0,     2,     0,     3,     1,     1,     1,     1,
        1,     1,     1
 };
@@ -589,10 +589,10 @@ static const yytype_uint8 yydefact[] =
        0,    20,     0,     0,     0,    18,    15,     0,     0,    60,
       61,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,    62,    29,    27,     0,
-      37,     0,    23,     0,     0,    59,    52,    53,    54,    55,
-      56,    57,    50,    51,    46,    47,    49,    48,    40,     0,
+      37,     0,    23,     0,     0,    59,    53,    54,    55,    56,
+      57,    58,    51,    52,    47,    48,    50,    49,    40,     0,
       64,     0,     0,    23,    24,     0,     0,    33,    45,     0,
-      63,    58,     0,    25,    31,     0,    64,    38,     0,    65,
+      63,    46,     0,    25,    31,     0,    64,    38,     0,    65,
       32
 };
 
@@ -1558,7 +1558,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 85 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); Tree = (yyval.astreeObject);  astTreeCheckDeclaration(Tree); astTreeCheckUndeclared(&Table);}
+    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); Tree = (yyval.astreeObject); astTreeCheckDeclaration(Tree); astTreeCheckUndeclared(&Table); astCheckNature(Tree,Tree);}
     break;
 
   case 3:
@@ -1866,91 +1866,91 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 167 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_ADD,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_FUNC_CALL,0,(yyvsp[(1) - (4)].astreeObject),(yyvsp[(3) - (4)].astreeObject),0,0); }
     break;
 
   case 47:
 
 /* Line 1806 of yacc.c  */
 #line 168 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_SUB,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_ADD,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 48:
 
 /* Line 1806 of yacc.c  */
 #line 169 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_DIV,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_SUB,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 49:
 
 /* Line 1806 of yacc.c  */
 #line 170 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_MUL,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_DIV,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 50:
 
 /* Line 1806 of yacc.c  */
 #line 171 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_LESS,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_MUL,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 51:
 
 /* Line 1806 of yacc.c  */
 #line 172 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_GREATER,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_LESS,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 52:
 
 /* Line 1806 of yacc.c  */
 #line 173 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_LE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_GREATER,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 53:
 
 /* Line 1806 of yacc.c  */
 #line 174 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_GE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_LE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 54:
 
 /* Line 1806 of yacc.c  */
 #line 175 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_EQ,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_GE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 55:
 
 /* Line 1806 of yacc.c  */
 #line 176 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_NE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_EQ,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 56:
 
 /* Line 1806 of yacc.c  */
 #line 177 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_AND,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_NE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 57:
 
 /* Line 1806 of yacc.c  */
 #line 178 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_OR,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_AND,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 58:
 
 /* Line 1806 of yacc.c  */
 #line 179 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_FUNC_CALL,0,(yyvsp[(1) - (4)].astreeObject),(yyvsp[(3) - (4)].astreeObject),0,0); }
+    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_OR,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
     break;
 
   case 59:

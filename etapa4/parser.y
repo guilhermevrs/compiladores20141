@@ -82,7 +82,7 @@ extern HASH_TABLE Table;
 
 %%
 
-inicio: program { $$ = $1; Tree = $$;  astTreeCheckDeclaration(Tree); astTreeCheckUndeclared(&Table);}
+inicio: program { $$ = $1; Tree = $$; astTreeCheckDeclaration(Tree); astTreeCheckUndeclared(&Table); astCheckNature(Tree,Tree);}
     ;
 
 program: decl_global { $$ = $1; }
@@ -164,6 +164,7 @@ type:KW_WORD { $$ = astCreate(ASTREE_DEF_KWWORD,0,0,0,0,0); }
 
 expression: element { $$ = $1; }
     | identifier '[' expression ']'{ $$ = astCreate(ASTREE_DEF_VEC_ACCESS,0,$1,$3,0,0); }
+    | identifier '(' n_param_ref ')' { $$ = astCreate(ASTREE_DEF_FUNC_CALL,0,$1,$3,0,0); }
     | expression '+' expression { $$ = astCreate(ASTREE_DEF_ADD,0,$1,$3,0,0); }
     | expression '-' expression { $$ = astCreate(ASTREE_DEF_SUB,0,$1,$3,0,0); }
     | expression '/' expression { $$ = astCreate(ASTREE_DEF_DIV,0,$1,$3,0,0); }
@@ -176,7 +177,6 @@ expression: element { $$ = $1; }
     | expression OPERATOR_NE expression { $$ = astCreate(ASTREE_DEF_OP_NE,0,$1,$3,0,0); }
     | expression OPERATOR_AND expression { $$ = astCreate(ASTREE_DEF_OP_AND,0,$1,$3,0,0); }
     | expression OPERATOR_OR expression { $$ = astCreate(ASTREE_DEF_OP_OR,0,$1,$3,0,0); }
-    | identifier '(' n_param_ref ')' { $$ = astCreate(ASTREE_DEF_FUNC_CALL,0,$1,$3,0,0); }
     | '(' expression ')' { $$ = $2; }
     | '&' expression { $$ = astCreate(ASTREE_DEF_REF,0,$2,0,0,0); }
     | '$' expression { $$ = astCreate(ASTREE_DEF_DEREF,0,$2,0,0,0); }

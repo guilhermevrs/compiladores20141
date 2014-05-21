@@ -18,6 +18,7 @@ Matrícula: 192332 e 213991.
 #define SYMBOL_LIT_CHAR 	5
 #define SYMBOL_LIT_STRING	6
 #define SYMBOL_IDENTIFIER 	7
+#define SYMBOL_SCALAR		8
 
 #define DATATYPE_UNDEFINED 0
 #define DATATYPE_VARIABLE 1
@@ -34,8 +35,8 @@ Matrícula: 192332 e 213991.
 typedef struct hash_node
 {
 	char *text;
-             int dataType;
-             int lineNumber;
+    int dataType;
+    int lineNumber;
 	int type;
 	struct hash_node *next;
 } HASH_NODE;

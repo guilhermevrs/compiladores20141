@@ -1,0 +1,83 @@
+word a[3];
+word b:2;
+bool c:0;
+bool d[3];
+word e[3];
+word t:0;
+word sum(word f, byte hou){}
+
+word main()
+{
+
+
+a=sum;
+a=b(5);
+b=d(2);
+c = 1;
+a = 'f';
+c = e[1];
+b = e[2];
+b = sum();
+
+
+}
+
+
+
+
+
+
+word b:0;
+//word v[15] ;
+word v[10]:0 0 0 0 0 0 0 0 0 0; 
+word mat[1000];
+word $pt:0;
+
+
+word b:0;
+word main1(){ {x = 6;}; }
+word main:0;
+word main()
+  word i:0;
+  bool teste:TRUE;
+  {
+  output "Digite um numero: ";
+  loop (i<10)
+    {
+	v[5] = 3;
+    a = v;
+    teste = FALSE;
+    v = a(v);
+    a = incn(c,1);
+    i = i + 1;
+    t = f(c);
+    };
+  output "Incrementado algumas vezes fica ",a,"\n";
+  }
+
+word incn (word x, word n)
+  { return x+n; }
+  
+word outra () 
+{
+	if (a) then b = 25+32;
+	main = 5;
+	return incn(a,b);
+}
+
+word maisuma () 
+  {  
+	v = 10;
+	return outra;
+}
+
+word f ( word x)
+  {
+  return 2* x;
+  }
+
+word function ()
+  {
+  a=10;
+  loop (v[a+1] != 4) v[a+1] = f(2);
+  }

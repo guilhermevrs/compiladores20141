@@ -72,19 +72,19 @@ Grammar
 
    43 expression: element
    44           | identifier '[' expression ']'
-   45           | expression '+' expression
-   46           | expression '-' expression
-   47           | expression '/' expression
-   48           | expression '*' expression
-   49           | expression '<' expression
-   50           | expression '>' expression
-   51           | expression OPERATOR_LE expression
-   52           | expression OPERATOR_GE expression
-   53           | expression OPERATOR_EQ expression
-   54           | expression OPERATOR_NE expression
-   55           | expression OPERATOR_AND expression
-   56           | expression OPERATOR_OR expression
-   57           | identifier '(' n_param_ref ')'
+   45           | identifier '(' n_param_ref ')'
+   46           | expression '+' expression
+   47           | expression '-' expression
+   48           | expression '/' expression
+   49           | expression '*' expression
+   50           | expression '<' expression
+   51           | expression '>' expression
+   52           | expression OPERATOR_LE expression
+   53           | expression OPERATOR_GE expression
+   54           | expression OPERATOR_EQ expression
+   55           | expression OPERATOR_NE expression
+   56           | expression OPERATOR_AND expression
+   57           | expression OPERATOR_OR expression
    58           | '(' expression ')'
    59           | '&' expression
    60           | '$' expression
@@ -111,18 +111,18 @@ $end (0) 0
 '!' (33)
 '$' (36) 18 24 60
 '&' (38) 59
-'(' (40) 19 30 31 32 57 58
-')' (41) 19 30 31 32 57 58
-'*' (42) 48
-'+' (43) 45
+'(' (40) 19 30 31 32 45 58
+')' (41) 19 30 31 32 45 58
+'*' (42) 49
+'+' (43) 46
 ',' (44) 23 24 39 64
-'-' (45) 46
-'/' (47) 47
+'-' (45) 47
+'/' (47) 48
 ':' (58) 9 14 18
 ';' (59) 9 14 15 18 19
-'<' (60) 49
+'<' (60) 50
 '=' (61) 36 37
-'>' (62) 50
+'>' (62) 51
 '[' (91) 14 15 37 44
 ']' (93) 14 15 37 44
 '{' (123) 26
@@ -137,12 +137,12 @@ KW_LOOP (264) 32
 KW_INPUT (266) 33
 KW_OUTPUT (267) 34
 KW_RETURN (268) 35
-OPERATOR_LE (270) 51
-OPERATOR_GE (271) 52
-OPERATOR_EQ (272) 53
-OPERATOR_NE (273) 54
-OPERATOR_AND (274) 55
-OPERATOR_OR (275) 56
+OPERATOR_LE (270) 52
+OPERATOR_GE (271) 53
+OPERATOR_EQ (272) 54
+OPERATOR_NE (273) 55
+OPERATOR_AND (274) 56
+OPERATOR_OR (275) 57
 TK_IDENTIFIER (280) 65
 LIT_INTEGER (281) 10 14 15 67
 LIT_FALSE (283) 11 68
@@ -193,14 +193,14 @@ type (62)
     on left: 40 41 42, on right: 9 14 15 18 19 21 23 24
 expression (63)
     on left: 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60,
-    on right: 30 31 32 35 36 37 38 39 44 45 46 47 48 49 50 51 52 53
-    54 55 56 58 59 60 62 64
+    on right: 30 31 32 35 36 37 38 39 44 46 47 48 49 50 51 52 53 54
+    55 56 57 58 59 60 62 64
 n_param_ref (64)
-    on left: 61 62, on right: 57
+    on left: 61 62, on right: 45
 n_param_ref2 (65)
     on left: 63 64, on right: 62 64
 identifier (66)
-    on left: 65, on right: 9 14 15 18 19 21 23 24 33 36 37 44 57 66
+    on left: 65, on right: 9 14 15 18 19 21 23 24 33 36 37 44 45 66
 element (67)
     on left: 66 67 68 69 70 71, on right: 43
 
@@ -877,18 +877,18 @@ state 65
 
    38 out: expression .
    39    | expression . ',' out
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -910,7 +910,7 @@ state 65
 state 66
 
    44 expression: identifier . '[' expression ']'
-   57           | identifier . '(' n_param_ref ')'
+   45           | identifier . '(' n_param_ref ')'
    66 element: identifier .
 
     '['  shift, and go to state 95
@@ -930,18 +930,18 @@ state 67
 state 68
 
    35 simple_command: KW_RETURN expression .
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -1061,18 +1061,18 @@ state 77
 
    30 simple_command: KW_IF '(' expression . ')' KW_THEN command
    31               | KW_IF '(' expression . ')' KW_ELSE command KW_THEN command
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -1110,18 +1110,18 @@ state 78
 
 state 79
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
    59           | '&' expression .
 
     $default  reduce using rule 59 (expression)
@@ -1129,18 +1129,18 @@ state 79
 
 state 80
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
    60           | '$' expression .
 
     $default  reduce using rule 60 (expression)
@@ -1148,18 +1148,18 @@ state 80
 
 state 81
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
    58           | '(' expression . ')'
 
     OPERATOR_LE   shift, and go to state 82
@@ -1179,7 +1179,7 @@ state 81
 
 state 82
 
-   51 expression: expression OPERATOR_LE . expression
+   52 expression: expression OPERATOR_LE . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1198,7 +1198,7 @@ state 82
 
 state 83
 
-   52 expression: expression OPERATOR_GE . expression
+   53 expression: expression OPERATOR_GE . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1217,7 +1217,7 @@ state 83
 
 state 84
 
-   53 expression: expression OPERATOR_EQ . expression
+   54 expression: expression OPERATOR_EQ . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1236,7 +1236,7 @@ state 84
 
 state 85
 
-   54 expression: expression OPERATOR_NE . expression
+   55 expression: expression OPERATOR_NE . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1255,7 +1255,7 @@ state 85
 
 state 86
 
-   55 expression: expression OPERATOR_AND . expression
+   56 expression: expression OPERATOR_AND . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1274,7 +1274,7 @@ state 86
 
 state 87
 
-   56 expression: expression OPERATOR_OR . expression
+   57 expression: expression OPERATOR_OR . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1293,7 +1293,7 @@ state 87
 
 state 88
 
-   49 expression: expression '<' . expression
+   50 expression: expression '<' . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1312,7 +1312,7 @@ state 88
 
 state 89
 
-   50 expression: expression '>' . expression
+   51 expression: expression '>' . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1331,7 +1331,7 @@ state 89
 
 state 90
 
-   45 expression: expression '+' . expression
+   46 expression: expression '+' . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1350,7 +1350,7 @@ state 90
 
 state 91
 
-   46 expression: expression '-' . expression
+   47 expression: expression '-' . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1369,7 +1369,7 @@ state 91
 
 state 92
 
-   48 expression: expression '*' . expression
+   49 expression: expression '*' . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1388,7 +1388,7 @@ state 92
 
 state 93
 
-   47 expression: expression '/' . expression
+   48 expression: expression '/' . expression
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1446,7 +1446,7 @@ state 95
 
 state 96
 
-   57 expression: identifier '(' . n_param_ref ')'
+   45 expression: identifier '(' . n_param_ref ')'
 
     TK_IDENTIFIER  shift, and go to state 15
     LIT_INTEGER    shift, and go to state 56
@@ -1483,18 +1483,18 @@ state 98
 state 99
 
    37 attribution: identifier '[' expression . ']' '=' expression
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -1514,18 +1514,18 @@ state 99
 state 100
 
    36 attribution: identifier '=' expression .
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -1575,18 +1575,18 @@ state 103
 state 104
 
    32 simple_command: KW_LOOP command '(' expression . ')'
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -1612,43 +1612,19 @@ state 105
 
 state 106
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   51           | expression OPERATOR_LE expression .
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
-
-    '+'  shift, and go to state 90
-    '-'  shift, and go to state 91
-    '*'  shift, and go to state 92
-    '/'  shift, and go to state 93
-
-    $default  reduce using rule 51 (expression)
-
-
-state 107
-
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   52           | expression OPERATOR_GE expression .
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   52           | expression OPERATOR_LE expression .
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     '+'  shift, and go to state 90
     '-'  shift, and go to state 91
@@ -1658,21 +1634,21 @@ state 107
     $default  reduce using rule 52 (expression)
 
 
-state 108
+state 107
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   53           | expression OPERATOR_EQ expression .
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   53           | expression OPERATOR_GE expression .
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     '+'  shift, and go to state 90
     '-'  shift, and go to state 91
@@ -1682,21 +1658,21 @@ state 108
     $default  reduce using rule 53 (expression)
 
 
-state 109
+state 108
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   54           | expression OPERATOR_NE expression .
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   54           | expression OPERATOR_EQ expression .
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     '+'  shift, and go to state 90
     '-'  shift, and go to state 91
@@ -1706,51 +1682,45 @@ state 109
     $default  reduce using rule 54 (expression)
 
 
-state 110
+state 109
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   55           | expression OPERATOR_AND expression .
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   55           | expression OPERATOR_NE expression .
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
-    OPERATOR_LE  shift, and go to state 82
-    OPERATOR_GE  shift, and go to state 83
-    OPERATOR_EQ  shift, and go to state 84
-    OPERATOR_NE  shift, and go to state 85
-    '<'          shift, and go to state 88
-    '>'          shift, and go to state 89
-    '+'          shift, and go to state 90
-    '-'          shift, and go to state 91
-    '*'          shift, and go to state 92
-    '/'          shift, and go to state 93
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
 
     $default  reduce using rule 55 (expression)
 
 
-state 111
+state 110
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
-   56           | expression OPERATOR_OR expression .
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   56           | expression OPERATOR_AND expression .
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE  shift, and go to state 82
     OPERATOR_GE  shift, and go to state 83
@@ -1766,45 +1736,51 @@ state 111
     $default  reduce using rule 56 (expression)
 
 
+state 111
+
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
+   57           | expression OPERATOR_OR expression .
+
+    OPERATOR_LE  shift, and go to state 82
+    OPERATOR_GE  shift, and go to state 83
+    OPERATOR_EQ  shift, and go to state 84
+    OPERATOR_NE  shift, and go to state 85
+    '<'          shift, and go to state 88
+    '>'          shift, and go to state 89
+    '+'          shift, and go to state 90
+    '-'          shift, and go to state 91
+    '*'          shift, and go to state 92
+    '/'          shift, and go to state 93
+
+    $default  reduce using rule 57 (expression)
+
+
 state 112
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   49           | expression '<' expression .
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
-
-    '+'  shift, and go to state 90
-    '-'  shift, and go to state 91
-    '*'  shift, and go to state 92
-    '/'  shift, and go to state 93
-
-    $default  reduce using rule 49 (expression)
-
-
-state 113
-
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   50           | expression '>' expression .
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   50           | expression '<' expression .
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     '+'  shift, and go to state 90
     '-'  shift, and go to state 91
@@ -1814,43 +1790,45 @@ state 113
     $default  reduce using rule 50 (expression)
 
 
-state 114
+state 113
 
-   45 expression: expression . '+' expression
-   45           | expression '+' expression .
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   51           | expression '>' expression .
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
     '*'  shift, and go to state 92
     '/'  shift, and go to state 93
 
-    $default  reduce using rule 45 (expression)
+    $default  reduce using rule 51 (expression)
 
 
-state 115
+state 114
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   46           | expression '-' expression .
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   46           | expression '+' expression .
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     '*'  shift, and go to state 92
     '/'  shift, and go to state 93
@@ -1858,42 +1836,64 @@ state 115
     $default  reduce using rule 46 (expression)
 
 
+state 115
+
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   47           | expression '-' expression .
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
+
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+
+    $default  reduce using rule 47 (expression)
+
+
 state 116
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   48           | expression '*' expression .
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   49           | expression '*' expression .
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
-    $default  reduce using rule 48 (expression)
+    $default  reduce using rule 49 (expression)
 
 
 state 117
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   47           | expression '/' expression .
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   48           | expression '/' expression .
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
-    $default  reduce using rule 47 (expression)
+    $default  reduce using rule 48 (expression)
 
 
 state 118
@@ -1906,18 +1906,18 @@ state 118
 state 119
 
    44 expression: identifier '[' expression . ']'
-   45           | expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46           | expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83
@@ -1936,18 +1936,18 @@ state 119
 
 state 120
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
    62 n_param_ref: expression . n_param_ref2
 
     OPERATOR_LE   shift, and go to state 82
@@ -1971,7 +1971,7 @@ state 120
 
 state 121
 
-   57 expression: identifier '(' n_param_ref . ')'
+   45 expression: identifier '(' n_param_ref . ')'
 
     ')'  shift, and go to state 131
 
@@ -2079,9 +2079,9 @@ state 130
 
 state 131
 
-   57 expression: identifier '(' n_param_ref ')' .
+   45 expression: identifier '(' n_param_ref ')' .
 
-    $default  reduce using rule 57 (expression)
+    $default  reduce using rule 45 (expression)
 
 
 state 132
@@ -2126,18 +2126,18 @@ state 135
 
 state 136
 
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
    64 n_param_ref2: ',' expression . n_param_ref2
 
     OPERATOR_LE   shift, and go to state 82
@@ -2162,18 +2162,18 @@ state 136
 state 137
 
    37 attribution: identifier '[' expression ']' '=' expression .
-   45 expression: expression . '+' expression
-   46           | expression . '-' expression
-   47           | expression . '/' expression
-   48           | expression . '*' expression
-   49           | expression . '<' expression
-   50           | expression . '>' expression
-   51           | expression . OPERATOR_LE expression
-   52           | expression . OPERATOR_GE expression
-   53           | expression . OPERATOR_EQ expression
-   54           | expression . OPERATOR_NE expression
-   55           | expression . OPERATOR_AND expression
-   56           | expression . OPERATOR_OR expression
+   46 expression: expression . '+' expression
+   47           | expression . '-' expression
+   48           | expression . '/' expression
+   49           | expression . '*' expression
+   50           | expression . '<' expression
+   51           | expression . '>' expression
+   52           | expression . OPERATOR_LE expression
+   53           | expression . OPERATOR_GE expression
+   54           | expression . OPERATOR_EQ expression
+   55           | expression . OPERATOR_NE expression
+   56           | expression . OPERATOR_AND expression
+   57           | expression . OPERATOR_OR expression
 
     OPERATOR_LE   shift, and go to state 82
     OPERATOR_GE   shift, and go to state 83

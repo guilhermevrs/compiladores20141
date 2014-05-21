@@ -1,0 +1,28 @@
+word a:'c';
+word mat[1000];
+word $pt:0;
+word a:'b';
+byte i: 2;
+byte h: 3;
+word v[10]:0 0 0 0 0 0 0 0 0 0;
+
+word main(word a, byte $ var)
+  {
+  output "Digite um numero: "
+  input recb
+  if (x < n) else return x then return x+n
+  loop
+    {
+    if (x>12) then { loop { output "Patifando na recursao" }(false) }
+    a = incn(a,1)
+    i = i + 1
+    b = $expr
+    b = &expr
+    v[10] = 0
+    a = f[2]
+    } (i<10)
+
+  output "Incrementado algumas vezes fica ",g < h,"\n"
+  };
+
+
