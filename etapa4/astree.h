@@ -71,9 +71,13 @@ ASTREE * astCreate(int type, HASH_NODE * symbol, ASTREE *s0, ASTREE *s1, ASTREE 
 void astPrintSingle(ASTREE *node);
 void astPrintTree(ASTREE *root, int level);
 void astCompile(ASTREE *root, FILE * out);
+int dataTypeMap(int astType);
 
 int astTreeCheckDeclaration(ASTREE *node);
 int astTreeCheckUndeclared(HASH_TABLE *Table);
+int expressionAnalyzes(ASTREE *ast, ASTREE *rootAux);
+int operationTypesCheck(int expr1, int expr2);
+int resultOperTypesCheck(int verified, int expr1, int expr2, int lineNumber);
 
 
 
