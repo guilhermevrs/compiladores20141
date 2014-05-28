@@ -1,0 +1,42 @@
+// UFRGS - Compiladores - Marcelo Johann - 2012/1
+
+declare a: integer;
+declare v: integer [10];
+
+main:integer ()
+  {
+  declare i: integer;
+
+  output "Digite um numero: ";
+jhsy(2);
+
+  input a;
+
+/*erros:*/
+
+a = incn(5);
+incn = a;
+a=v(5);//função não declarada
+kj=a;
+declare i: integer;
+
+incn(1, a, z);
+
+  while (i<10)
+    {
+    a = incn(a,1);
+    i = i + 1;
+    };
+  declare a: integer;
+  output "Incrementado algumas vezes fica ",a,"\n"
+  };
+
+incn:integer (x:integer, n:integer)
+  return v[2]; 
+/*x+n;*/
+  
+outra:integer ();
+
+maisuma:integer ()
+  {
+  };

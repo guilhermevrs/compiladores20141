@@ -1,0 +1,17 @@
+DATAS!
+
+Etapa 5 - 10/junho
+
+Etapa 6 - 26/junho
+
+DEFINIÇÕES ETAPA 6
+
+- Gerar ASM para montador da gcc
+    Formato AT&T
+
+gcc -S t1.c
+
+
+PRIMEIRA TAREFA
+    1- Descobrir o que é inútil
+        Retira tudo que tem . que é não serve para nada

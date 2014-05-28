@@ -1,0 +1,36 @@
+// UFRGS - Compiladores - Marcelo Johann - 2013/1
+
+word a:0;
+word v[10]:'a' 2 3 4 5 6 7 8 9 10; 
+word mat[1000];
+word $pt:0;
+
+word main()
+  bool b:0;
+  word i:0; 
+  {
+  pt = 1+pt;
+  a = 1 + 2 + pt;
+  pt =  1 + pt;
+  b = (i > 1);
+  a = 200*(100+30*(b));
+  a = 200*(100+30*('A'));
+  if (a > i) then
+    output "a maior que i";
+  output "Digite um numero: ";
+  loop (i<10)
+    {
+    a = incn(a,1);
+    i = i * 1;
+    };
+  output "Incrementado algumas vezes fica ",a,"\n";
+  }
+
+  word incn (word x, word n)
+    { return x + n; }
+  
+word outra () {}
+
+word maisuma ()
+  {
+  }

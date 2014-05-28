@@ -1,0 +1,21 @@
+Cuidados na Etapa 4 de Compiladores:
+
+1-Função não pode retornar vetor e nem receber vetor por parâmetro
+2-Reportar todos os erros, mas qndo encontrar um erro, anotar e continuar analisando o código
+3-Para reportar o warning indicar a linha que este aparece, e criar um atributo no astreeNode que indique o número de linha dele, no qual eu pegarei através do lineNumber do scanner
+4-Vale comparações, análise em if, while, etc... menos string, pq string é um vetor
+5-DATATYPE vai estar na hash e tbm na AST
+6-Lembrar que no scanner eu mudei a posição da hash com a da astree, passei a hash p/ baixo (ver se vai fazer alguma diferença)
+
+====================================================================================================
+AST_exprComTK_IDENTIFIER = chamamento de função, verfificar se fora declarada - TK_IDENTIFIER '(' params_func ')'
+AST_KW_INPUT = cuidar aquii tratar ident e ver se foi declarado PQ É UM TK_IDENTIFIER =  KW_INPUT TK_IDENTIFIER
+AST_TK_IDENTIFIER = dentro do primary_expression ver se tk_identifier declarado pois tá como expr e pode não ter sido
+AST_TK_IDENTIFIER_VET  = ver se foi declarado, tá dentro de expr TK_IDENTIFIER vet
+
+FUNÇÃO OU VETOR PODE SER DADO DE ENTRADA ??? :/
+====================================================================================================
+
+AVISAR AO PROF:
+
+O NOSSO PARSER NÃO DEIXA FUNÇÃO ANTES DE IGUALDADE OU OPER LÓGICAS DEVIDO AO expr2, ENTÃO NEM A AST DESTE NÓ É FEITA SE TIVER ISSO. O PARSER JÁ VERIFICA ISSO.
