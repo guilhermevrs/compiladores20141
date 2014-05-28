@@ -1,17 +1,17 @@
-%{
 /*
-UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 3
-
-Alunos: Guilherme Schwade e Guilherme Pretto.
-
-Matrículas: 192332 e 213991.
+// UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 4
+//
+// Alunos: Guilherme Schwade e Guilherme Pretto.
+//
+// MatrÃ­culas: 192332 e 213991.
 */
 
+%{
+
 #include <stdio.h>
-#include <stdlib.h>
 #include "astree.h"
-#include "hash.h"
 #include "y.tab.h"
+#include "hash.h"
 
 HASH_TABLE Table;
 int lineNumber;
@@ -55,27 +55,26 @@ int running;
 <COMMENT>.		{}
 
 
-"true"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE);
-				  return LIT_TRUE;
+"true"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE,getLineNumber()); 
+				  return LIT_TRUE; 
 				}
-"false"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE);
-				  return LIT_FALSE;
+"false"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE, getLineNumber()); 
+				  return LIT_FALSE; 
 				}
 
-[0-9]+				{
-				  yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
+[0-9]+				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER, getLineNumber()); 
 				  return LIT_INTEGER;
 				}
 
-[0-9]*[a-zA-Z_][a-zA-Z_0-9]*	{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_IDENTIFIER);
+[0-9]*[a-zA-Z_][a-zA-Z_0-9]*	{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_IDENTIFIER, getLineNumber()); 
 				  return TK_IDENTIFIER;
 				}
 
-"\'"(.)"\'"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_CHAR );
+"\'"(.)"\'"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_CHAR, getLineNumber()); 
 				  return LIT_CHAR;
 				}
 
-\"[^\"]*\"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_STRING);
+\"[^\"]*\"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_STRING, getLineNumber()); 
 				  return LIT_STRING;
 				}
 

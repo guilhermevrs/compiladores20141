@@ -1,9 +1,9 @@
 /*
-UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 3
-
-Alunos: Guilherme Schwade e Guilherme Pretto
-
-Matrícula: 192332 e 213991.
+// UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 4
+//
+// Alunos: Guilherme Schwade e Guilherme Pretto.
+//
+// Matrículas: 192332 e 213991.
 */
 
 #ifndef HASH_HEADER
@@ -18,28 +18,27 @@ Matrícula: 192332 e 213991.
 #define SYMBOL_LIT_CHAR 	5
 #define SYMBOL_LIT_STRING	6
 #define SYMBOL_IDENTIFIER 	7
-#define SYMBOL_SCALAR		8
 
-#define DATATYPE_UNDEFINED 0
-#define DATATYPE_VARIABLE 1
-#define DATATYPE_VECTOR 2
-#define DATATYPE_POINTER 3
-#define DATATYPE_FUNCTION 4
-#define DATATYPE_PARAM 5
+#define SYMBOL_VARIABLE		8
+#define SYMBOL_VECTOR		9
+#define SYMBOL_VECTORINIT  10
+#define SYMBOL_POINTER	   11
+#define SYMBOL_FUNCTION	   12
 
-#define DATATYPE_WORD 6
-#define DATATYPE_BOOL 7
-#define DATATYPE_BYTE 8
+#define DATATYPE_UNDEFINED	0
+#define DATATYPE_WORD		1
+#define DATATYPE_BYTE		2
+#define DATATYPE_BOOL		3
 
 
 typedef struct hash_node
 {
 	char *text;
-    int dataType;
-    int lineNumber;
 	int type;
-	void *ast;
+	int datatype;
+	int lineNumber;
 	struct hash_node *next;
+	struct astreenode *decl;
 } HASH_NODE;
 
 typedef struct hash_table
@@ -48,12 +47,12 @@ typedef struct hash_table
 	HASH_NODE *node[HASH_SIZE];
 } HASH_TABLE;
 
-
 void hashInit(HASH_TABLE *Table);
 int hashAddress(HASH_TABLE *Table, char *text);
 void hashResize(HASH_TABLE *Table);
-HASH_NODE *hashInsert(HASH_TABLE *Table, char *text, int type);
+HASH_NODE *hashInsert(HASH_TABLE *Table, char *text, int type, int lineNumber);
 HASH_NODE *hashFind(HASH_TABLE *Table, char *text, int type);
 void hashPrint(HASH_TABLE *Table);
+void hashCheckUndeclared(HASH_TABLE *Table, int * errors);
 
 #endif

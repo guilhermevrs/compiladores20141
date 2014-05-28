@@ -1,9 +1,9 @@
 /*
-UFRGS - Compiladores B - Marcelo Johann - 2013/1 - Etapa 3
-
-Alunos: Guilherme Schwade e Guilherme Pretto.
-
-Matrícula: 192332 e 213991.
+// UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 4
+//
+// Alunos: Guilherme Schwade e Guilherme Pretto.
+//
+// MatrÃ­culas: 192332 e 213991.
 */
 
 #include <stdio.h>
@@ -11,6 +11,7 @@ Matrícula: 192332 e 213991.
 #include <string.h>
 #include "astree.h"
 #include "hash.h"
+#include "y.tab.h"
 
 static int hash_i = 1;
 
@@ -46,13 +47,15 @@ void hashResize(HASH_TABLE *Table)
 	{
 		Table -> node[i] = 0;
 	}
+//	printf("Table resized, now size is %d\n", hash_i*HASH_SIZE);
 }
 
-HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type)
+HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type, int lineNumber)
 {
 	HASH_NODE *node;
 	int address;
-
+	
+	// Check if the table is getting full and resize it
 	if (Table->usedEntries > hash_i*HASH_SIZE/2)
 	{
 		hashResize(Table);
@@ -61,28 +64,26 @@ HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type)
 	address = 0;
 	node  = hashFind(Table, text, type);
 
+	// First check if it is in the hash
 	if (node == 0)
 	{
 		address = hashAddress(Table, text);
 		HASH_NODE *newNode;
 		newNode = (HASH_NODE*)calloc(1, sizeof(HASH_NODE));
 		newNode -> type = type;
-		newNode -> ast = 0;
-		newNode -> lineNumber = getLineNumber();
-	    newNode -> dataType = DATATYPE_UNDEFINED;
+		newNode -> lineNumber = lineNumber;
 		newNode -> text = (char*)calloc(sizeof(strlen(text)+1), sizeof(strlen(text)+1));
 		strcpy(newNode -> text, text);
 		newNode -> next = Table -> node[address];
 		Table -> node[address] = newNode;
-
 		Table -> usedEntries++;
 		return newNode;
 	}
 	else
-	{
+	{		
 		return node;
 	}
-
+	
 }
 
 HASH_NODE *hashFind (HASH_TABLE *Table, char *text, int type)
@@ -91,7 +92,7 @@ HASH_NODE *hashFind (HASH_TABLE *Table, char *text, int type)
 	int i;
 	HASH_NODE *pt;
 
-	address = hashAddress(Table, text);
+	address = hashAddress(Table, text); 
 
 	for (i = 0; i < hash_i*HASH_SIZE; ++i)
 	{
@@ -122,3 +123,21 @@ void hashPrint (HASH_TABLE *Table)
 	printf("Table has %d entries\n", Table->usedEntries);
 }
 
+void hashCheckUndeclared(HASH_TABLE *Table, int * errors)
+{
+	int i;
+	HASH_NODE *pt;
+
+	for (i = 0; i < hash_i*HASH_SIZE; ++i)
+	{
+		for (pt = Table -> node[i]; pt; pt = pt -> next)
+		{
+			if (pt->type == SYMBOL_IDENTIFIER)
+			{
+				*errors = *errors + 1;
+				printf("LINE: %d - Undeclared Identifier (%s)\n", pt->lineNumber, pt->text);
+			}
+		}
+	}
+
+}

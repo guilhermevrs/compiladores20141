@@ -3,7 +3,7 @@
 #
 # Alunos: Guilherme Schwade e Guilherme Pretto.
 #
-# Matrículas: 192332 e 213991.
+# MatrÃ­culas: 192332 e 213991.
 #
 # Makefile for single compiler call
 # All source files must be included from code embedded in scanner.l
@@ -11,15 +11,9 @@
 # and #include "main.c" in the last part of the scanner.l
 #
 
-etapa4: y.tab.o lex.yy.o main.o hash.o astree.o
-	gcc -o etapa4 y.tab.o lex.yy.o main.o hash.o astree.o
-
-test1: etapa4
-	./etapa4 testes/teste1.txt
-
-testuni: etapa4
-	./etapa4 testes/testeuni.txt
-
+etapa4: y.tab.o lex.yy.o hash.o astree.o main.o
+	gcc -o etapa4 y.tab.o lex.yy.o hash.o astree.o main.o
+	
 main.o: main.c
 	gcc -c main.c
 
@@ -28,7 +22,7 @@ hash.o: hash.c
 
 astree.o: astree.c
 	gcc -c astree.c
-
+	
 y.tab.o: y.tab.c
 	gcc -c y.tab.c
 
@@ -36,8 +30,8 @@ lex.yy.o: lex.yy.c
 	gcc -c lex.yy.c
 
 y.tab.c: parser.y
-	yacc -d parser.y -v
-
+	yacc parser.y -d -v
+	
 lex.yy.c: scanner.l
 	lex --header-file=lex.yy.h scanner.l
 
