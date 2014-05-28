@@ -1,0 +1,83 @@
+word a:'c';
+word mat[1000];
+word $pt:0;
+bool z:9;
+word teste()
+{
+}
+;
+word main()
+{
+output "Digite um numero: "
+loop
+{
+a = incn(a, 1)
+
+i = i+1
+}
+(i<10)
+output "Incrementado algumas vezes fica ",a,"\n"
+output "Incrementado algumas gagagagagaggag"
+input recb
+loop
+{
+d = 1+a
+a = incn(a, 1)
+
+b = $expr
+
+b = 'c'
+g = "rrrr"
+i = i+1+2
+input recb
+}
+(i<10)
+output "Incrementado algumas vezes fica ",g<h,"\n"
+
+if (x<n) else return x
+ then return x+n
+
+i = aaa+b+4
+{
+b = teste(a, 1)
+
+i = i+1
+}
+loop
+{
+
+if (x>12) then {
+loop
+{
+output "Patifando na recursao"
+}
+(false)
+}
+
+}
+(true)
+}
+;
+bool a:0;
+bool mat[1000];
+byte $pt:0;
+word incn(word x, word n)
+return x+n
+;
+word outra(word x, word n)
+
+if (x<n) else return x
+ then return x+n
+
+;
+word maisuma()
+{
+}
+;
+word maisuma(word x)
+{
+a = v(f[2]+5<c)
+
+}
+;
+word v[10]:0 0 0 0 0 0 0 0 0 0;

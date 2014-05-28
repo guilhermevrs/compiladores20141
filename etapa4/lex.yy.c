@@ -515,27 +515,26 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "scanner.l"
-#line 2 "scanner.l"
 /*
-UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 3
-
-Alunos: Guilherme Schwade e Guilherme Pretto.
-
-Matrículas: 192332 e 213991.
+// UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 4
+//
+// Alunos: Guilherme Schwade e Guilherme Pretto.
+//
+// MatrÃ­culas: 192332 e 213991.
 */
+#line 10 "scanner.l"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include "astree.h"
-#include "hash.h"
 #include "y.tab.h"
+#include "hash.h"
 
 HASH_TABLE Table;
 int lineNumber;
 int running;
 
 
-#line 539 "lex.yy.c"
+#line 538 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -726,7 +725,7 @@ YY_DECL
 #line 25 "scanner.l"
 
 
-#line 730 "lex.yy.c"
+#line 729 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -939,58 +938,57 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 58 "scanner.l"
-{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE);
-				  return LIT_TRUE;
+{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE,getLineNumber()); 
+				  return LIT_TRUE; 
 				}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 61 "scanner.l"
-{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE);
-				  return LIT_FALSE;
+{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE, getLineNumber()); 
+				  return LIT_FALSE; 
 				}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 65 "scanner.l"
-{
-				  yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER);
+{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER, getLineNumber()); 
 				  return LIT_INTEGER;
 				}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 70 "scanner.l"
-{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_IDENTIFIER);
+#line 69 "scanner.l"
+{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_IDENTIFIER, getLineNumber()); 
 				  return TK_IDENTIFIER;
 				}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 74 "scanner.l"
-{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_CHAR );
+#line 73 "scanner.l"
+{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_CHAR, getLineNumber()); 
 				  return LIT_CHAR;
 				}
 	YY_BREAK
 case 31:
 /* rule 31 can match eol */
 YY_RULE_SETUP
-#line 78 "scanner.l"
-{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_STRING);
+#line 77 "scanner.l"
+{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_STRING, getLineNumber()); 
 				  return LIT_STRING;
 				}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 84 "scanner.l"
+#line 83 "scanner.l"
 { return TOKEN_ERROR; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 86 "scanner.l"
+#line 85 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 994 "lex.yy.c"
+#line 992 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -1989,7 +1987,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 86 "scanner.l"
+#line 85 "scanner.l"
 
 
 

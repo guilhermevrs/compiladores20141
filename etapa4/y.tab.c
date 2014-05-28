@@ -66,7 +66,7 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 268 of yacc.c  */
-#line 9 "parser.y"
+#line 10 "parser.y"
 
 
 #include <stdio.h>
@@ -75,8 +75,8 @@
 #include "hash.h"
 
 ASTREE *Tree;
-extern HASH_TABLE Table;
-int error = 0;
+HASH_TABLE Table;
+int errors;
 
 
 
@@ -166,10 +166,10 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 50 "parser.y"
+#line 51 "parser.y"
 
-    HASH_NODE *symbol;
-    ASTREE *astreeObject;
+	HASH_NODE *symbol;
+	ASTREE *ast;
 
 
 
@@ -467,8 +467,8 @@ static const yytype_uint8 yyprhs[] =
       21,    27,    29,    31,    33,    35,    44,    51,    53,    56,
       63,    71,    72,    76,    77,    82,    88,    90,    94,    95,
       98,   100,   107,   116,   122,   125,   128,   131,   135,   142,
-     144,   148,   150,   152,   154,   156,   161,   166,   170,   174,
-     178,   182,   186,   190,   194,   198,   202,   206,   210,   214,
+     144,   148,   150,   152,   154,   156,   161,   165,   169,   173,
+     177,   181,   185,   189,   193,   197,   201,   205,   209,   214,
      218,   221,   224,   225,   228,   229,   233,   235,   237,   239,
      241,   243,   245
 };
@@ -492,12 +492,12 @@ static const yytype_int8 yyrhs[] =
       -1,    66,    44,    63,    -1,    66,    37,    63,    38,    44,
       63,    -1,    63,    -1,    63,    41,    61,    -1,     3,    -1,
        5,    -1,     4,    -1,    67,    -1,    66,    37,    63,    38,
-      -1,    66,    39,    64,    40,    -1,    63,    28,    63,    -1,
-      63,    29,    63,    -1,    63,    31,    63,    -1,    63,    30,
-      63,    -1,    63,    26,    63,    -1,    63,    27,    63,    -1,
-      63,    13,    63,    -1,    63,    14,    63,    -1,    63,    15,
-      63,    -1,    63,    16,    63,    -1,    63,    17,    63,    -1,
-      63,    18,    63,    -1,    39,    63,    40,    -1,    32,    63,
+      -1,    63,    28,    63,    -1,    63,    29,    63,    -1,    63,
+      31,    63,    -1,    63,    30,    63,    -1,    63,    26,    63,
+      -1,    63,    27,    63,    -1,    63,    13,    63,    -1,    63,
+      14,    63,    -1,    63,    15,    63,    -1,    63,    16,    63,
+      -1,    63,    17,    63,    -1,    63,    18,    63,    -1,    66,
+      39,    64,    40,    -1,    39,    63,    40,    -1,    32,    63,
       -1,    33,    63,    -1,    -1,    63,    65,    -1,    -1,    41,
       63,    65,    -1,    19,    -1,    66,    -1,    20,    -1,    21,
       -1,    22,    -1,    23,    -1,    24,    -1
@@ -506,14 +506,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    86,    86,    89,    90,    91,    92,    95,    96,    97,
-     100,   103,   104,   105,   106,   109,   110,   113,   114,   117,
-     123,   126,   127,   130,   131,   132,   135,   136,   139,   140,
-     143,   144,   145,   146,   147,   148,   149,   152,   153,   156,
-     157,   161,   162,   163,   166,   167,   168,   169,   170,   171,
-     172,   173,   174,   175,   176,   177,   178,   179,   180,   181,
-     182,   183,   186,   187,   190,   191,   194,   197,   198,   199,
-     200,   201,   202
+       0,    87,    87,    92,    93,    94,    95,   100,   101,   102,
+     105,   108,   109,   110,   111,   114,   115,   118,   119,   122,
+     128,   131,   132,   135,   136,   137,   141,   142,   145,   146,
+     149,   150,   151,   152,   153,   154,   155,   158,   159,   162,
+     163,   168,   169,   170,   173,   174,   175,   176,   177,   178,
+     179,   180,   181,   182,   183,   184,   185,   186,   187,   188,
+     189,   190,   193,   194,   197,   198,   201,   204,   205,   206,
+     207,   208,   209
 };
 #endif
 
@@ -529,7 +529,7 @@ static const char *const yytname[] =
   "LIT_FALSE", "LIT_TRUE", "LIT_CHAR", "LIT_STRING", "TOKEN_ERROR", "'<'",
   "'>'", "'+'", "'-'", "'*'", "'/'", "'&'", "'$'", "'!'", "':'", "';'",
   "'['", "']'", "'('", "')'", "','", "'{'", "'}'", "'='", "$accept",
-  "inicio", "program", "decl_global", "decl", "init", "decl_vector",
+  "root", "program", "decl_global", "decl", "init", "decl_vector",
   "init_vector", "decl_pointer", "function", "n_param", "param", "command",
   "command_block", "simple_command", "attribution", "out", "type",
   "expression", "n_param_ref", "n_param_ref2", "identifier", "element", 0
@@ -569,8 +569,8 @@ static const yytype_uint8 yyr2[] =
        5,     1,     1,     1,     1,     8,     6,     1,     2,     6,
        7,     0,     3,     0,     4,     5,     1,     3,     0,     2,
        1,     6,     8,     5,     2,     2,     2,     3,     6,     1,
-       3,     1,     1,     1,     1,     4,     4,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     1,     1,     1,     1,     4,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     4,     3,
        2,     2,     0,     2,     0,     3,     1,     1,     1,     1,
        1,     1,     1
 };
@@ -590,10 +590,10 @@ static const yytype_uint8 yydefact[] =
        0,    20,     0,     0,     0,    18,    15,     0,     0,    60,
       61,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,    62,    29,    27,     0,
-      37,     0,    23,     0,     0,    59,    53,    54,    55,    56,
-      57,    58,    51,    52,    47,    48,    50,    49,    40,     0,
+      37,     0,    23,     0,     0,    59,    52,    53,    54,    55,
+      56,    57,    50,    51,    46,    47,    49,    48,    40,     0,
       64,     0,     0,    23,    24,     0,     0,    33,    45,     0,
-      63,    46,     0,    25,    31,     0,    64,    38,     0,    65,
+      63,    58,     0,    25,    31,     0,    64,    38,     0,    65,
       32
 };
 
@@ -1558,504 +1558,507 @@ yyreduce:
         case 2:
 
 /* Line 1806 of yacc.c  */
-#line 86 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); Tree = (yyval.astreeObject); error += astTreeCheckDeclaration(Tree); error += astTreeCheckUndeclared(&Table); error += astCheckNature(Tree,Tree); return error;}
+#line 87 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); Tree = (yyval.ast); 
+				astSetDeclaration((yyval.ast), &errors); 
+				hashCheckUndeclared(&Table, &errors);
+				astCheckNature((yyval.ast), &errors);}
     break;
 
   case 3:
 
 /* Line 1806 of yacc.c  */
-#line 89 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 92 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 4:
 
 /* Line 1806 of yacc.c  */
-#line 90 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_PROGRAM,0,(yyvsp[(1) - (2)].astreeObject),(yyvsp[(2) - (2)].astreeObject),0,0); }
+#line 93 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_PROGRAM,0,(yyvsp[(1) - (2)].ast),(yyvsp[(2) - (2)].ast),0,0,0); }
     break;
 
   case 5:
 
 /* Line 1806 of yacc.c  */
-#line 91 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 94 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 6:
 
 /* Line 1806 of yacc.c  */
-#line 92 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_PROGRAM,0,(yyvsp[(1) - (2)].astreeObject),(yyvsp[(2) - (2)].astreeObject),0,0); }
+#line 95 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_PROGRAM,0,(yyvsp[(1) - (2)].ast),(yyvsp[(2) - (2)].ast),0,0,0); }
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
-#line 95 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 100 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 8:
 
 /* Line 1806 of yacc.c  */
-#line 96 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 101 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 9:
 
 /* Line 1806 of yacc.c  */
-#line 97 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 102 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 100 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_DECL,0,(yyvsp[(1) - (5)].astreeObject),(yyvsp[(2) - (5)].astreeObject),(yyvsp[(4) - (5)].astreeObject),0);  }
+#line 105 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_DECL,0,(yyvsp[(1) - (5)].ast),(yyvsp[(2) - (5)].ast),(yyvsp[(4) - (5)].ast),0,0);  }
     break;
 
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 103 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 108 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 104 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 109 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 13:
 
 /* Line 1806 of yacc.c  */
-#line 105 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 110 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 14:
 
 /* Line 1806 of yacc.c  */
-#line 106 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 111 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 109 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_DECL_VEC_INIT,(yyvsp[(4) - (8)].symbol),(yyvsp[(1) - (8)].astreeObject),(yyvsp[(2) - (8)].astreeObject),(yyvsp[(7) - (8)].astreeObject),0); }
+#line 114 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_DECL_VEC_INIT,(yyvsp[(4) - (8)].symbol),(yyvsp[(1) - (8)].ast),(yyvsp[(2) - (8)].ast),(yyvsp[(7) - (8)].ast),0,getLineNumber()); }
     break;
 
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 110 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_DECL_VEC,(yyvsp[(4) - (6)].symbol),(yyvsp[(1) - (6)].astreeObject),(yyvsp[(2) - (6)].astreeObject),0,0); }
+#line 115 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_DECL_VEC,(yyvsp[(4) - (6)].symbol),(yyvsp[(1) - (6)].ast),(yyvsp[(2) - (6)].ast),0,0,getLineNumber()); }
     break;
 
   case 17:
 
 /* Line 1806 of yacc.c  */
-#line 113 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 118 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 18:
 
 /* Line 1806 of yacc.c  */
-#line 114 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_INIT_VEC,0,(yyvsp[(1) - (2)].astreeObject),(yyvsp[(2) - (2)].astreeObject),0,0); }
+#line 119 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_INIT_VEC,0,(yyvsp[(1) - (2)].ast),(yyvsp[(2) - (2)].ast),0,0,0); }
     break;
 
   case 19:
 
 /* Line 1806 of yacc.c  */
-#line 117 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_DECL_POINTER,0,(yyvsp[(1) - (6)].astreeObject),(yyvsp[(3) - (6)].astreeObject),(yyvsp[(5) - (6)].astreeObject),0); }
+#line 122 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_DECL_POINTER,0,(yyvsp[(1) - (6)].ast),(yyvsp[(3) - (6)].ast),(yyvsp[(5) - (6)].ast),0,0); }
     break;
 
   case 20:
 
 /* Line 1806 of yacc.c  */
-#line 123 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_FUNC,0,(yyvsp[(1) - (7)].astreeObject),(yyvsp[(2) - (7)].astreeObject),(yyvsp[(4) - (7)].astreeObject),(yyvsp[(6) - (7)].astreeObject)); }
+#line 128 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_FUNC,0,(yyvsp[(1) - (7)].ast),(yyvsp[(2) - (7)].ast),(yyvsp[(4) - (7)].ast),(yyvsp[(6) - (7)].ast),0); }
     break;
 
   case 21:
 
 /* Line 1806 of yacc.c  */
-#line 126 "parser.y"
-    { (yyval.astreeObject) = 0; }
+#line 131 "parser.y"
+    { (yyval.ast) = 0; }
     break;
 
   case 22:
 
 /* Line 1806 of yacc.c  */
-#line 127 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_PARAM,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(2) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0); }
+#line 132 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_PARAM,0,(yyvsp[(1) - (3)].ast),(yyvsp[(2) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0); }
     break;
 
   case 23:
 
 /* Line 1806 of yacc.c  */
-#line 130 "parser.y"
-    { (yyval.astreeObject) = 0; }
+#line 135 "parser.y"
+    { (yyval.ast) = 0; }
     break;
 
   case 24:
 
 /* Line 1806 of yacc.c  */
-#line 131 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_PARAM,0,(yyvsp[(2) - (4)].astreeObject),(yyvsp[(3) - (4)].astreeObject),(yyvsp[(4) - (4)].astreeObject),0); }
+#line 136 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_PARAM,0,(yyvsp[(2) - (4)].ast),(yyvsp[(3) - (4)].ast),(yyvsp[(4) - (4)].ast),0,0); }
     break;
 
   case 25:
 
 /* Line 1806 of yacc.c  */
-#line 132 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_PARAM_POINTER,0,(yyvsp[(2) - (5)].astreeObject),(yyvsp[(4) - (5)].astreeObject),(yyvsp[(5) - (5)].astreeObject),0); }
+#line 137 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_PARAM_POINTER,0,(yyvsp[(2) - (5)].ast),(yyvsp[(4) - (5)].ast),(yyvsp[(5) - (5)].ast),0,0); }
     break;
 
   case 26:
 
 /* Line 1806 of yacc.c  */
-#line 135 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SIMPLE_COMMAND,0,(yyvsp[(1) - (1)].astreeObject),0,0,0); }
+#line 141 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SIMPLE_COMMAND,0,(yyvsp[(1) - (1)].ast),0,0,0,0); }
     break;
 
   case 27:
 
 /* Line 1806 of yacc.c  */
-#line 136 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_BLOCK,0,(yyvsp[(2) - (3)].astreeObject),0,0,0); }
+#line 142 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_BLOCK,0,(yyvsp[(2) - (3)].ast),0,0,0,0); }
     break;
 
   case 28:
 
 /* Line 1806 of yacc.c  */
-#line 139 "parser.y"
-    { (yyval.astreeObject) = 0; }
+#line 145 "parser.y"
+    { (yyval.ast) = 0; }
     break;
 
   case 29:
 
 /* Line 1806 of yacc.c  */
-#line 140 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_COMMAND_BLOCK,0,(yyvsp[(1) - (2)].astreeObject),(yyvsp[(2) - (2)].astreeObject),0,0); }
+#line 146 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_COMMAND_BLOCK,0,(yyvsp[(1) - (2)].ast),(yyvsp[(2) - (2)].ast),0,0,0); }
     break;
 
   case 30:
 
 /* Line 1806 of yacc.c  */
-#line 143 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 149 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 31:
 
 /* Line 1806 of yacc.c  */
-#line 144 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_IF,0,(yyvsp[(3) - (6)].astreeObject),(yyvsp[(6) - (6)].astreeObject),0,0); }
+#line 150 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_IF,0,(yyvsp[(3) - (6)].ast),(yyvsp[(6) - (6)].ast),0,0,0); }
     break;
 
   case 32:
 
 /* Line 1806 of yacc.c  */
-#line 145 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_IFELSE,0,(yyvsp[(3) - (8)].astreeObject),(yyvsp[(6) - (8)].astreeObject),(yyvsp[(8) - (8)].astreeObject),0); }
+#line 151 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_IFELSE,0,(yyvsp[(3) - (8)].ast),(yyvsp[(6) - (8)].ast),(yyvsp[(8) - (8)].ast),0,0); }
     break;
 
   case 33:
 
 /* Line 1806 of yacc.c  */
-#line 146 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_LOOP,0,(yyvsp[(2) - (5)].astreeObject),(yyvsp[(4) - (5)].astreeObject),0,0); }
+#line 152 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_LOOP,0,(yyvsp[(2) - (5)].ast),(yyvsp[(4) - (5)].ast),0,0,0); }
     break;
 
   case 34:
 
 /* Line 1806 of yacc.c  */
-#line 147 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_INPUT,0,(yyvsp[(2) - (2)].astreeObject),0,0,0); }
+#line 153 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_INPUT,0,(yyvsp[(2) - (2)].ast),0,0,0,0); }
     break;
 
   case 35:
 
 /* Line 1806 of yacc.c  */
-#line 148 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_OUTPUT,0,(yyvsp[(2) - (2)].astreeObject),0,0,0); }
+#line 154 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_OUTPUT,0,(yyvsp[(2) - (2)].ast),0,0,0,0); }
     break;
 
   case 36:
 
 /* Line 1806 of yacc.c  */
-#line 149 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_RETURN,0,(yyvsp[(2) - (2)].astreeObject),0,0,0); }
+#line 155 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_RETURN,0,(yyvsp[(2) - (2)].ast),0,0,0,0); }
     break;
 
   case 37:
 
 /* Line 1806 of yacc.c  */
-#line 152 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_ATTR,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 158 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_ATTR,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 38:
 
 /* Line 1806 of yacc.c  */
-#line 153 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_ATTR_VEC,0,(yyvsp[(1) - (6)].astreeObject),(yyvsp[(3) - (6)].astreeObject),(yyvsp[(6) - (6)].astreeObject),0); }
+#line 159 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_ATTR_VEC,0,(yyvsp[(1) - (6)].ast),(yyvsp[(3) - (6)].ast),(yyvsp[(6) - (6)].ast),0,0); }
     break;
 
   case 39:
 
 /* Line 1806 of yacc.c  */
-#line 156 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 162 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 40:
 
 /* Line 1806 of yacc.c  */
-#line 157 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_OUT_LST,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 163 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_OUT_LST,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 41:
 
 /* Line 1806 of yacc.c  */
-#line 161 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_KWWORD,0,0,0,0,0); }
+#line 168 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_KWWORD,0,0,0,0,0,getLineNumber()); }
     break;
 
   case 42:
 
 /* Line 1806 of yacc.c  */
-#line 162 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_KWBYTE,0,0,0,0,0); }
+#line 169 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_KWBYTE,0,0,0,0,0,getLineNumber()); }
     break;
 
   case 43:
 
 /* Line 1806 of yacc.c  */
-#line 163 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_KWBOOL,0,0,0,0,0); }
+#line 170 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_KWBOOL,0,0,0,0,0,getLineNumber()); }
     break;
 
   case 44:
 
 /* Line 1806 of yacc.c  */
-#line 166 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 173 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 45:
 
 /* Line 1806 of yacc.c  */
-#line 167 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_VEC_ACCESS,0,(yyvsp[(1) - (4)].astreeObject),(yyvsp[(3) - (4)].astreeObject),0,0); }
+#line 174 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_VEC_ACCESS,0,(yyvsp[(1) - (4)].ast),(yyvsp[(3) - (4)].ast),0,0,0); }
     break;
 
   case 46:
 
 /* Line 1806 of yacc.c  */
-#line 168 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_FUNC_CALL,0,(yyvsp[(1) - (4)].astreeObject),(yyvsp[(3) - (4)].astreeObject),0,0); }
+#line 175 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_ADD,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 47:
 
 /* Line 1806 of yacc.c  */
-#line 169 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_ADD,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 176 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_SUB,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 48:
 
 /* Line 1806 of yacc.c  */
-#line 170 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_SUB,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 177 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_DIV,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 49:
 
 /* Line 1806 of yacc.c  */
-#line 171 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_DIV,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 178 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_MUL,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 50:
 
 /* Line 1806 of yacc.c  */
-#line 172 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_MUL,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 179 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_LESS,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 51:
 
 /* Line 1806 of yacc.c  */
-#line 173 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_LESS,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 180 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_GREATER,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 52:
 
 /* Line 1806 of yacc.c  */
-#line 174 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_GREATER,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 181 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_OP_LE,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 53:
 
 /* Line 1806 of yacc.c  */
-#line 175 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_LE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 182 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_OP_GE,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 54:
 
 /* Line 1806 of yacc.c  */
-#line 176 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_GE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 183 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_OP_EQ,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 55:
 
 /* Line 1806 of yacc.c  */
-#line 177 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_EQ,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 184 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_OP_NE,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 56:
 
 /* Line 1806 of yacc.c  */
-#line 178 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_NE,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 185 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_OP_AND,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 57:
 
 /* Line 1806 of yacc.c  */
-#line 179 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_AND,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 186 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_OP_OR,0,(yyvsp[(1) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 58:
 
 /* Line 1806 of yacc.c  */
-#line 180 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_OP_OR,0,(yyvsp[(1) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 187 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_FUNC_CALL,0,(yyvsp[(1) - (4)].ast),(yyvsp[(3) - (4)].ast),0,0,0); }
     break;
 
   case 59:
 
 /* Line 1806 of yacc.c  */
-#line 181 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(2) - (3)].astreeObject); }
+#line 188 "parser.y"
+    { (yyval.ast) = (yyvsp[(2) - (3)].ast); }
     break;
 
   case 60:
 
 /* Line 1806 of yacc.c  */
-#line 182 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_REF,0,(yyvsp[(2) - (2)].astreeObject),0,0,0); }
+#line 189 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_REF,0,(yyvsp[(2) - (2)].ast),0,0,0,0); }
     break;
 
   case 61:
 
 /* Line 1806 of yacc.c  */
-#line 183 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_DEREF,0,(yyvsp[(2) - (2)].astreeObject),0,0,0); }
+#line 190 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_DEREF,0,(yyvsp[(2) - (2)].ast),0,0,0,0); }
     break;
 
   case 62:
 
 /* Line 1806 of yacc.c  */
-#line 186 "parser.y"
-    { (yyval.astreeObject) = 0; }
+#line 193 "parser.y"
+    { (yyval.ast) = 0; }
     break;
 
   case 63:
 
 /* Line 1806 of yacc.c  */
-#line 187 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_PARAM_REF,0,(yyvsp[(1) - (2)].astreeObject),(yyvsp[(2) - (2)].astreeObject),0,0); }
+#line 194 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_PARAM_REF,0,(yyvsp[(1) - (2)].ast),(yyvsp[(2) - (2)].ast),0,0,0); }
     break;
 
   case 64:
 
 /* Line 1806 of yacc.c  */
-#line 190 "parser.y"
-    { (yyval.astreeObject) = 0; }
+#line 197 "parser.y"
+    { (yyval.ast) = 0; }
     break;
 
   case 65:
 
 /* Line 1806 of yacc.c  */
-#line 191 "parser.y"
-    { (yyval.astreeObject) = astCreate(ASTREE_DEF_PARAM_REF,0,(yyvsp[(2) - (3)].astreeObject),(yyvsp[(3) - (3)].astreeObject),0,0); }
+#line 198 "parser.y"
+    { (yyval.ast) = astCreate(ASTREE_DEF_PARAM_REF,0,(yyvsp[(2) - (3)].ast),(yyvsp[(3) - (3)].ast),0,0,0); }
     break;
 
   case 66:
 
 /* Line 1806 of yacc.c  */
-#line 194 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 201 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 67:
 
 /* Line 1806 of yacc.c  */
-#line 197 "parser.y"
-    { (yyval.astreeObject) = (yyvsp[(1) - (1)].astreeObject); }
+#line 204 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); }
     break;
 
   case 68:
 
 /* Line 1806 of yacc.c  */
-#line 198 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 205 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 69:
 
 /* Line 1806 of yacc.c  */
-#line 199 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 206 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 70:
 
 /* Line 1806 of yacc.c  */
-#line 200 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 207 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 71:
 
 /* Line 1806 of yacc.c  */
-#line 201 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 208 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
   case 72:
 
 /* Line 1806 of yacc.c  */
-#line 202 "parser.y"
-    { (yyval.astreeObject) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0); }
+#line 209 "parser.y"
+    { (yyval.ast) = astCreate (ASTREE_DEF_SYMBOL,(yyvsp[(1) - (1)].symbol),0,0,0,0,getLineNumber()); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 2059 "y.tab.c"
+#line 2062 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2286,12 +2289,12 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 205 "parser.y"
+#line 212 "parser.y"
 
 
 int yyerror (char *s)
 {
-    fprintf(stderr, "Error in line %d: %s.\n", getLineNumber(), s);
-    exit(3);
+	fprintf(stderr, "Error in line %d: %s.\n", getLineNumber(), s);
+	exit(3);
 }
 

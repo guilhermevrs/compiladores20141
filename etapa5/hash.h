@@ -1,5 +1,5 @@
 /*
-// UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 4
+// UFRGS - Compiladores B - Marcelo Johann - 2014/1 - Etapa 5
 //
 // Alunos: Guilherme Schwade e Guilherme Pretto.
 //
