@@ -10,23 +10,24 @@
 #define ASTREE_HEADER
 
 #include "hash.h"
+#include <stdio.h>
 
 #define MAX_SONS 4
 
 #define ASTREE_DEF_SYMBOL			1
 #define ASTREE_DEF_ADD				2
-#define ASTREE_DEF_SUB				3	
-#define ASTREE_DEF_DIV				4	
-#define ASTREE_DEF_MUL				5	
-#define ASTREE_DEF_LESS				6	
-#define ASTREE_DEF_GREATER			7	
-#define ASTREE_DEF_OP_LE			8	
-#define ASTREE_DEF_OP_GE			9	
-#define ASTREE_DEF_OP_EQ			10	
-#define ASTREE_DEF_OP_NE			11	
-#define ASTREE_DEF_OP_AND			12	
-#define ASTREE_DEF_OP_OR			13	
-#define ASTREE_DEF_IF				23	
+#define ASTREE_DEF_SUB				3
+#define ASTREE_DEF_DIV				4
+#define ASTREE_DEF_MUL				5
+#define ASTREE_DEF_LESS				6
+#define ASTREE_DEF_GREATER			7
+#define ASTREE_DEF_OP_LE			8
+#define ASTREE_DEF_OP_GE			9
+#define ASTREE_DEF_OP_EQ			10
+#define ASTREE_DEF_OP_NE			11
+#define ASTREE_DEF_OP_AND			12
+#define ASTREE_DEF_OP_OR			13
+#define ASTREE_DEF_IF				23
 #define ASTREE_DEF_IFELSE			25
 #define ASTREE_DEF_LOOP				26
 #define ASTREE_DEF_INPUT			27
@@ -36,11 +37,11 @@
 #define ASTREE_DEF_FUNC_CALL		31
 #define ASTREE_DEF_REF				32
 #define ASTREE_DEF_DEREF			33
-#define ASTREE_DEF_DECL				35	
+#define ASTREE_DEF_DECL				35
 #define ASTREE_DEF_DECL_VEC			36
 #define ASTREE_DEF_DECL_VEC_INIT	37
 #define ASTREE_DEF_DECL_POINTER		38
-#define ASTREE_DEF_FUNC				39	
+#define ASTREE_DEF_FUNC				39
 #define ASTREE_DEF_INIT_VEC			40
 #define ASTREE_DEF_PARAM			41
 #define ASTREE_DEF_PARAM_REF		42

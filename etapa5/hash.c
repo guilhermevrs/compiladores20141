@@ -15,6 +15,8 @@
 
 static int hash_i = 1;
 
+extern HASH_TABLE Table;
+
 void hashInit (HASH_TABLE *Table)
 {
 	int i;
@@ -54,7 +56,7 @@ HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type, int lineNumber)
 {
 	HASH_NODE *node;
 	int address;
-	
+
 	// Check if the table is getting full and resize it
 	if (Table->usedEntries > hash_i*HASH_SIZE/2)
 	{
@@ -80,10 +82,10 @@ HASH_NODE *hashInsert (HASH_TABLE *Table, char *text, int type, int lineNumber)
 		return newNode;
 	}
 	else
-	{		
+	{
 		return node;
 	}
-	
+
 }
 
 HASH_NODE *hashFind (HASH_TABLE *Table, char *text, int type)
@@ -92,7 +94,7 @@ HASH_NODE *hashFind (HASH_TABLE *Table, char *text, int type)
 	int i;
 	HASH_NODE *pt;
 
-	address = hashAddress(Table, text); 
+	address = hashAddress(Table, text);
 
 	for (i = 0; i < hash_i*HASH_SIZE; ++i)
 	{
@@ -140,4 +142,23 @@ void hashCheckUndeclared(HASH_TABLE *Table, int * errors)
 		}
 	}
 
+}
+
+HASH_NODE *makeLabel()
+{
+    static int nextLabel = 0;
+    char buffer[128];
+
+    sprintf(buffer, "__Label%d", nextLabel);
+    nextLabel++;
+    return hashInsert (&Table, buffer, SYMBOL_LABEL, 0);
+}
+HASH_NODE *makeTemp()
+{
+    static int nextLabel = 0;
+    char buffer[128];
+
+    sprintf(buffer, "__Temp%d", nextLabel);
+    nextLabel++;
+    return hashInsert (&Table, buffer, SYMBOL_VARIABLE, 0);
 }

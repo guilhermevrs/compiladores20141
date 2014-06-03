@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include "astree.h"
 #include "hash.h"
+#include "genco.h"
 
 ASTREE *Tree;
 HASH_TABLE Table;
@@ -59,24 +60,24 @@ int errors;
 %left '*' '/'
 %nonassoc '&' '$' '!'
 
-%type<ast> element 
-%type<ast> identifier 
-%type<ast> n_param_ref 
-%type<ast> n_param_ref2 
-%type<ast> expression 
+%type<ast> element
+%type<ast> identifier
+%type<ast> n_param_ref
+%type<ast> n_param_ref2
+%type<ast> expression
 %type<ast> type
-%type<ast> out 
-%type<ast> attribution 
+%type<ast> out
+%type<ast> attribution
 %type<ast> simple_command
-%type<ast> command_block 
-%type<ast> command 
-%type<ast> param 
-%type<ast> n_param 
-%type<ast> function 
+%type<ast> command_block
+%type<ast> command
+%type<ast> param
+%type<ast> n_param
+%type<ast> function
 %type<ast> decl_pointer
 %type<ast> init_vector
 %type<ast> decl_vector
-%type<ast> init decl 
+%type<ast> init decl
 %type<ast> decl_global
 %type<ast> program
 %type<ast> root
@@ -84,10 +85,11 @@ int errors;
 
 %%
 
-root: program { $$ = $1; Tree = $$; 
-				astSetDeclaration($$, &errors); 
+root: program { $$ = $1; Tree = $$;
+				astSetDeclaration($$, &errors);
 				hashCheckUndeclared(&Table, &errors);
-				astCheckNature($$, &errors);} //astPrintTree($$,0);};
+				astCheckNature($$, &errors);
+                                                tac_print_list(tac_reverse(generateCode($$)));}
 
 program: decl_global { $$ = $1; }
 	| decl_global program { $$ = astCreate (ASTREE_DEF_PROGRAM,0,$1,$2,0,0,0); }

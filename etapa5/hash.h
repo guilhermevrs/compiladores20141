@@ -24,6 +24,7 @@
 #define SYMBOL_VECTORINIT  10
 #define SYMBOL_POINTER	   11
 #define SYMBOL_FUNCTION	   12
+#define SYMBOL_LABEL    13
 
 #define DATATYPE_UNDEFINED	0
 #define DATATYPE_WORD		1
@@ -54,5 +55,8 @@ HASH_NODE *hashInsert(HASH_TABLE *Table, char *text, int type, int lineNumber);
 HASH_NODE *hashFind(HASH_TABLE *Table, char *text, int type);
 void hashPrint(HASH_TABLE *Table);
 void hashCheckUndeclared(HASH_TABLE *Table, int * errors);
+
+HASH_NODE *makeLabel();
+HASH_NODE *makeTemp();
 
 #endif

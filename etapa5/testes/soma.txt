@@ -1,0 +1,8 @@
+byte a: 1;
+byte b: 2;
+byte c: 0;
+
+byte main(){
+    c = a + b
+    return c
+};
