@@ -1,0 +1,37 @@
+word a: 1;
+word b: 2;
+word c: 0;
+word d: 0;
+word z[10];
+word $pt: 0;
+bool e: 0;
+
+word main()
+{
+
+    c = a + b
+    d = c * a
+    d = c / a
+    d = c - a
+
+    b = soma(a,b)
+
+    if (a > b) then
+    	output "a maior que b"
+
+    e = (c > a)
+    e = (c < a)
+
+    loop 
+    {
+	    a = soma(a,1)
+	    b = b + 1
+    } (c<10)
+    
+    return a
+};
+
+word soma(word x, word n)
+{ 
+	return x + n
+};

@@ -55,14 +55,14 @@ int running;
 <COMMENT>.		{}
 
 
-"true"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE,getLineNumber()); 
+"true"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_TRUE,getLineNumber()); 
 				  return LIT_TRUE; 
 				}
-"false"				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE, getLineNumber()); 
+"false"			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_FALSE, getLineNumber()); 
 				  return LIT_FALSE; 
 				}
 
-[0-9]+				{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER, getLineNumber()); 
+[0-9]+			{ yylval.symbol = hashInsert(&Table, yytext, SYMBOL_LIT_INTEGER, getLineNumber()); 
 				  return LIT_INTEGER;
 				}
 

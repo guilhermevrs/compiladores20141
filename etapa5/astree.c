@@ -1019,6 +1019,14 @@ void astCompile(ASTREE *root, FILE * out)
 			}
 			break;
 
+		case ASTREE_DEF_PARAM_REF:
+			astCompile(root->son[0], out);
+			if(root->son[1] != 0){
+				fprintf(out, ", ");
+				astCompile(root->son[1], out);
+			}
+			break;
+
 		case ASTREE_DEF_COMMAND_BLOCK:	
 			internalCompile(root, out);
 			break;
@@ -1076,14 +1084,6 @@ void astCompile(ASTREE *root, FILE * out)
 			fprintf(out, "(");
 			astCompile(root->son[1], out);
 			fprintf(out, ")\n");		
-			break;
-
-		case ASTREE_DEF_PARAM_REF:
-			astCompile(root->son[0], out);
-			if(root->son[1] != 0){
-				fprintf(out, ", ");
-				astCompile(root->son[1], out);
-			}
 			break;
 
 		case ASTREE_DEF_ADD:		
@@ -1167,12 +1167,20 @@ void astCompile(ASTREE *root, FILE * out)
 			fprintf(out, "\n");
 			break;
 
+		case ASTREE_DEF_IF:
+			fprintf(out, "\nif (");
+			astCompile(root->son[0], out);
+			fprintf(out, ") then ");
+			astCompile(root->son[1], out);
+			fprintf(out, "\n");
+			break;
+
 		case ASTREE_DEF_IFELSE: 	
 			fprintf(out, "\nif (");
 			astCompile(root->son[0], out);
-			fprintf(out, ") else ");
+			fprintf(out, ") then ");
 			astCompile(root->son[1], out);
-			fprintf(out, " then ");
+			fprintf(out, " else ");
 			astCompile(root->son[2], out);
 			fprintf(out, "\n");
 			break;
@@ -1180,14 +1188,6 @@ void astCompile(ASTREE *root, FILE * out)
 		case ASTREE_DEF_RETURN: 	
 			fprintf(out, "return ");
 			astCompile(root->son[0], out);
-			fprintf(out, "\n");
-			break;
-
-		case ASTREE_DEF_IF:
-			fprintf(out, "\nif (");
-			astCompile(root->son[0], out);
-			fprintf(out, ") then ");
-			astCompile(root->son[1], out);
 			fprintf(out, "\n");
 			break;
 

@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 
 	int token;
 	token = 0;
-	
+
 	errors = 0;
 
 	if (argc < 2)

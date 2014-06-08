@@ -58,20 +58,28 @@ void tac_print_single (TAC *t)
 
     switch(t->type)
     {
+        case TAC_VARDEC: printf("TAC_VARDEC"); break;
+        case TAC_VETDEC: printf("TAC_VETDEC"); break;
+        case TAC_PTRDEC: printf( "TAC_PTRDEC"); break;
+
+        case TAC_BEGINFUN: printf("TAC_BEGINFUN"); break;
+        case TAC_ENDFUN: printf("TAC_ENDFUN"); break;
+        case TAC_RETURN: printf("TAC_RETURN"); break;
+        case TAC_INPUT: printf( "TAC_INPUT"); break;
+        case TAC_OUTPUT: printf("TAC_OUTPUT"); break;
+        case TAC_MOV: printf("TAC_MOV"); break;
         case TAC_SOMA: printf("TAC_SOMA"); break;
-
-        case TAC_SUB: printf("TAC_SUB"); break;
-
         case TAC_MULT: printf("TAC_MULT"); break;
-
+        case TAC_SUB: printf("TAC_SUB"); break;
         case TAC_DIV: printf("TAC_DIV"); break;
+        case TAC_PARAM: printf( "TAC_PARAM"); break;
+        case TAC_ARG: printf("TAC_ARG"); break;       
+        case TAC_IFZ: printf("TAC_IFZ"); break;
+        case TAC_CALL: printf("TAC_CALL"); break;
+        case TAC_LABEL: printf("TAC_LABEL"); break;
+        case TAC_JUMP: printf("TAC_JUMP"); break;
 
         case TAC_SYMBOL: printf("TAC_SYMBOL"); break;
-
-        case TAC_MOV: printf("TAC_MOV"); break;
-
-        //case TAC_VAR: return;/*printf("TAC_VAR");*/ break;
-
         case TAC_LE: printf("TAC_LE"); break;
         case TAC_GE: printf("TAC_GE"); break;
         case TAC_EQ: printf("TAC_EQ"); break;
@@ -80,44 +88,6 @@ void tac_print_single (TAC *t)
         case TAC_OR: printf("TAC_OR"); break;
         case TAC_LESS: printf("TAC_LESS"); break;
         case TAC_GREAT: printf("TAC_GREAT"); break;
-
-        case TAC_IFZ: printf("TAC_IFZ"); break;
-
-        case TAC_LABEL: printf("TAC_LABEL"); break;
-
-        case TAC_JUMP: printf("TAC_JUMP"); break;
-
-        case TAC_BEGINFUN: printf("TAC_BEGINFUN"); break;
-
-        case TAC_ENDFUN: printf("TAC_ENDFUN"); break;
-
-        case TAC_CALL: printf("TAC_CALL"); break;
-
-        case TAC_ARG: printf("TAC_ARG"); break;
-
-        case TAC_RETURN: printf("TAC_RETURN"); break;
-
-        case TAC_OUTPUT: printf("TAC_OUTPUT"); break;
-
-        case TAC_VETW: printf("TAC_VETWRITE"); break;
-
-        case TAC_VARDEC: printf("TAC_VARDEC"); break;
-
-        case TAC_VETDEC: printf("TAC_VETDEC"); break;
-
-        case TAC_VETDECINIT: printf("TAC_VETDECINI"); break;
-
-        case TAC_PTRDEC: printf( "TAC_PTRDEC"); break;
-
-        case TAC_INPUT: printf( "TAC_INPUT"); break;
-
-        case TAC_PTRADRESS: printf( "TAC_PTRADRESS"); break;
-
-        case TAC_PTRVALUE: printf( "TAC_PTRVALUE"); break;
-
-        case TAC_PARAM: printf( "TAC_PARAM"); break;
-
-        case TAC_VETREAD: printf( "TAC_VETREAD"); break;
 
         default: printf("UNKNOWN"); break;
     }
