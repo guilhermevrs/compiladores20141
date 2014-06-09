@@ -7,10 +7,12 @@ word $pt:0;
 bool e:0;
 word main()
 {
-c = a+b
+c = a+b+c
 d = c*a
 d = ca
 d = c-a
+a = 200*100+30*b
+a = 200*100+30*'A'
 b = soma(a, b)
 
 

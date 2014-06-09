@@ -25,22 +25,9 @@ TAC* tac_join (TAC *l1, TAC *l2)
     if(!l2)
         return l1;
 
-
-
     for(tac = l2; tac->prev; tac = tac->prev);
-    //tac = l2;
-
-    //while(tac->prev) { //PROBLEM HERE! ¬¬
-    //  fprintf(stderr,"oinowhile\n");
-    //  tac = tac->prev;
-    //  if(!tac)
-    //      break;
-    //}
-
     tac->prev = l1;
-    //l1->next = l2;
     return l2;
-
 }
 
 void tac_print_single (TAC *t)
@@ -123,10 +110,7 @@ TAC* tac_reverse(TAC *last)
 {
     TAC *first = NULL;
 
-    printf("\nCHEGOU\n");
-
     if(!last){
-        printf("\nSAIU\n");
         return NULL;
     }
 
