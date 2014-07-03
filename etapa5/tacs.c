@@ -48,7 +48,9 @@ void tac_print_single (TAC *t)
         case TAC_VARDEC: printf("TAC_VARDEC"); break;
         case TAC_VETDEC: printf("TAC_VETDEC"); break;
         case TAC_PTRDEC: printf( "TAC_PTRDEC"); break;
-
+        case TAC_VETDECINIT: printf("TAC_VETDECINIT"); break;
+        case TAC_VET_READ: printf( "TAC_VET_READ"); break;
+        case TAC_VET_WRITE: printf( "TAC_VET_WRITE"); break;
         case TAC_BEGINFUN: printf("TAC_BEGINFUN"); break;
         case TAC_ENDFUN: printf("TAC_ENDFUN"); break;
         case TAC_RETURN: printf("TAC_RETURN"); break;

@@ -9,7 +9,7 @@ bool e: 0;
 
 word main()
 {
-    x[3] = 5
+
     c = a + b + c
     d = c * a
     d = c / a

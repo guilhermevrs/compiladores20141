@@ -52,7 +52,8 @@
 
 #define TAC_MOV 33
 
-#define TAC_VETREAD 34
+#define TAC_VET_READ 34
+#define TAC_VET_WRITE 35
 
 
 typedef struct tac_node

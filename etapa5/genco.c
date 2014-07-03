@@ -29,17 +29,22 @@ TAC* generateCode(ASTREE *node)
         case ASTREE_DEF_PROGRAM: result = tac_join(code[0], code[1]); break;
         case ASTREE_DEF_DECL: result = makeVarDec(node->symbol, code[1], code[2]);  break;
         case ASTREE_DEF_DECL_VEC: result = makeVetDec(node->symbol, code[1]); break;
+        case ASTREE_DEF_DECL_VEC_INIT: result = makeVetDecInit(node->symbol, code[0], code[1], code[2]); break;
+        case ASTREE_DEF_INIT_VEC: result = makeVetInit(code[0], code[1]); break;        
         case ASTREE_DEF_DECL_POINTER: result = makePtrDec(code[1], code[2]); break;
         case ASTREE_DEF_FUNC: result = makeFunc(code[0],code[1],code[2],code[3]); break;
         case ASTREE_DEF_RETURN: result = tac_join(code[0],tac_create(TAC_RETURN,code[0]? code[0]->target : 0, NULL, NULL)); break;
         case ASTREE_DEF_PARAM: result = makeParams(code[1]? code[1]->target:0,code[2]); break;
         case ASTREE_DEF_PARAM_REF: result = makeArgss(code[0], code[1]); break;
-        case ASTREE_DEF_FUNC_CALL: result = makeCallFunc(node->symbol, code[1]) ; break;
+        case ASTREE_DEF_FUNC_CALL: result = makeCallFunc(code[0]? code[0]->target : 0, code[1]) ; break;
         case ASTREE_DEF_IF: result = makeIf(code[0],code[1]); break;
         case ASTREE_DEF_LOOP: result = makeLoop(code[0],code[1]); break;
         case ASTREE_DEF_IFELSE: result = makeIfElse(code[0],code[1], code[2]); break;
 
         case ASTREE_DEF_ATTR: result = tac_join(code[1], tac_create(TAC_MOV, code[0]? code[0]->target:0, code[1]? code[1]->target:0, 0)); break;
+
+        case ASTREE_DEF_ATTR_VEC: result = makeAttrVec(code[0],code[1],code[2]); break;
+
         case ASTREE_DEF_ADD: result = makeOpt(code[0],code[1],TAC_SOMA); break;
         case ASTREE_DEF_MUL: result = makeOpt(code[0],code[1],TAC_MULT); break;
         case ASTREE_DEF_SUB: result = makeOpt(code[0],code[1],TAC_SUB); break;
@@ -62,11 +67,25 @@ TAC* generateCode(ASTREE *node)
 
 }
 
+TAC* makeAttrVec(TAC* code0, TAC* code1, TAC* code2)
+{
+    TAC *nova = NULL;
+
+    nova = tac_create(TAC_VET_WRITE, code0? code0->target: 0, code1? code1->target: 0, code2? code2->target: 0);
+
+    nova = tac_join(code0, nova);
+    nova = tac_join(code1, nova);
+    nova = tac_join(code2, nova);
+
+    return nova;
+
+}
+
 TAC* makeOpt( TAC* code0, TAC* code1, int type)
 {
     TAC *nova = NULL;
 
-    nova = tac_create(type, makeTemp(),code0? code0->target: 0, code1? code1->target: 0);
+    nova = tac_create(type, makeTemp(), code0? code0->target: 0, code1? code1->target: 0);
     nova = tac_join(code0, nova);
     nova = tac_join(code1, nova);
 
@@ -116,6 +135,28 @@ TAC *makeVetDec(HASH_NODE *symbol, TAC* tam)
      
     return tac_join(tam,newTac);
 
+}
+
+TAC* makeVetDecInit(HASH_NODE *symbol, TAC* type, TAC* identifier, TAC* init)
+{
+    
+    TAC *newTac;
+    
+    newTac = tac_create(TAC_VETDECINIT, identifier? identifier->target :0, symbol, NULL);
+
+    init = tac_join(newTac, init);
+     
+    return init;
+
+}
+
+TAC* makeVetInit(TAC* code0, TAC* code1)
+{
+    TAC *nova = NULL;
+
+    nova = tac_create(TAC_VET_READ, code0? code0->target: 0, NULL, NULL);
+    
+    return tac_join(nova, code1);
 }
 
 TAC *makePtrDec(TAC* symbol, TAC* literal)
@@ -171,7 +212,7 @@ TAC* makeLoop(TAC *code0, TAC* code1)
     
     code0 = tac_join(labelBegin, code0);
     
-    ifz = tac_create(TAC_IFZ, targetEnd, code0?code0->target:0, NULL);
+    ifz = tac_create(TAC_IFZ, code1?code1->target:0, targetEnd, NULL);
     
     ifz->prev = code0;
     code1 = tac_join(ifz,code1);
@@ -179,23 +220,16 @@ TAC* makeLoop(TAC *code0, TAC* code1)
     jmp = tac_create(TAC_JUMP, targetBegin, NULL, NULL);
     
     jmp->prev = code1;
-    
-    labelEnd = tac_create(TAC_LABEL, targetEnd, NULL, NULL);
-    
-    labelEnd->prev = jmp;
-    
-    return labelEnd;
+     
+    return jmp;
 }
 
 TAC* makeCallFunc(HASH_NODE *function, TAC *params)
 {
 
     TAC *nova;
-    HASH_NODE *resultado = NULL;
     
-    resultado = makeTemp();
-      
-    nova = tac_create(TAC_CALL, resultado, function, NULL);   
+    nova = tac_create(TAC_CALL, function, NULL, NULL);   
 
     return tac_join(params,nova);
 }
@@ -209,7 +243,7 @@ TAC* makeIf( TAC* code0, TAC* code1)
 
     labelFinal = makeLabel();
     
-    nova1 = tac_create(TAC_IFZ, labelFinal,code0? code0->target : 0, 0); //se falso, pula pro label final
+    nova1 = tac_create(TAC_IFZ, code0 ? code0->target : 0, labelFinal, 0); //se falso, pula pro label final
     
     nova1->prev = code0;
     code1 = tac_join(nova1,code1);
@@ -226,7 +260,7 @@ TAC* makeIfElse(TAC* code0, TAC* code1, TAC* code2)
     HASH_NODE *targetElse = makeLabel();
     HASH_NODE *targetEnd = makeLabel();
 
-    TAC * jumpElse = tac_create(TAC_IFZ, targetElse, code0?code0->target:0,0);
+    TAC * jumpElse = tac_create(TAC_IFZ, code0?code0->target:0, targetElse, 0);
     TAC * jumpEnd = tac_create(TAC_JUMP, targetEnd, 0,0);
 
     TAC* labelElse = tac_create(TAC_LABEL, targetElse, 0, 0);

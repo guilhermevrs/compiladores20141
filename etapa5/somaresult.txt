@@ -2,11 +2,13 @@ word a:1;
 word b:2;
 word c:0;
 word d:0;
-word z[10];
+word x[10];
+word z[10]:0 1 2 3 4 5 6 7 8 9;
 word $pt:0;
 bool e:0;
 word main()
 {
+x[3] = 5
 c = a+b+c
 d = c*a
 d = ca
