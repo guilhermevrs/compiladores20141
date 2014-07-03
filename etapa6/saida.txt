@@ -1,0 +1,38 @@
+word a:1;
+word b:2;
+word c:0;
+word d:0;
+word x[10];
+word z[10]:0 1 2 3 4 5 6 7 8 9;
+word $pt:0;
+bool e:0;
+word main()
+{
+c = a+b+c
+d = c*a
+d = ca
+d = c-a
+a = 200*100+30*b
+a = 200*100+30*'A'
+b = soma(a, b)
+
+
+if (a>b) then output "a maior que b"
+
+e = c>a
+e = c<a
+loop
+{
+a = soma(a, 1)
+
+b = b+1
+}
+(c<10)
+return a
+}
+;
+word soma(word x, word n)
+{
+return x+n
+}
+;
